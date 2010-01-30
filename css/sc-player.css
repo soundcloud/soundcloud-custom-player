@@ -1,32 +1,112 @@
-.sc-player a.pause{
+.sc-player{
+  width: 540px;
+  height: 270px;
+  border: 1px solid #000;
+  position: relative;
+  font: 12px Arial, sans-serif;
+  background-color: #333;
+  color: #eee;
+}
+
+.sc-player ol, .sc-player li{
+  margin: 0;
+  padding: 0;
+  list-style-position: inside;
+}
+
+/* Artworks */
+.sc-player .sc-artwork-list{
+  width: 50%;
+  height: 100%;
+  background-color: #00aa00;
+  list-style-type: none;
+  position: relative;
+}
+
+.sc-player .sc-artwork-list li{
+  list-style-type: none;
   display: none;
 }
 
-/* tracks */
-.sc-player ul.tracks li{
-  cursor: pointer;
+.sc-player .sc-artwork-list li.active{
+  list-style-type: none;
+  display: block;
 }
 
-.sc-player ul.tracks li:hover, .sc-player.playing ul.tracks li.active{
+.sc-player .sc-artwork-list li img, .sc-player .sc-artwork-list li div{
+  list-style-type: none;
+  width: 100%;
+  height: 100%;
+}
+
+/* controls */
+
+
+.sc-player .sc-controls{
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  margin-left: -25px;
+  margin-top: -25px;
+  top: 50%;
+  left: 25%;
+  background-color: blue;
+}
+
+.sc-player .sc-controls a{
+  display: block;
+  width: 50px;
+  height: 50px;
+}
+
+.sc-player .sc-controls a.sc-pause{
+  display: none;
+}
+
+.sc-player.playing .sc-controls a.sc-play{
+  display: none;
+}
+
+.sc-player.playing .sc-controls a.sc-pause{
+  display: block;
+}
+
+/* tracks */
+
+
+/* Track listings*/
+.sc-player ol.sc-trackslist{
+  position: absolute;
+  width: 50%;
+  top: 0;
+  left: 50%;
+  overflow: auto;
+}
+
+.sc-player ol.sc-trackslist li{
+  cursor: pointer;
+  margin: 5px 20px;
+}
+
+.sc-player ol.sc-trackslist li:hover, .sc-player.playing ol.sc-trackslist li.active{
   background-color: #ff6600;
 }
 
-.sc-player ul.tracks li.active{
+.sc-player ol.sc-trackslist li.active{
   background-color: #ffbb00;
 }
 
 
-/* playing state */
-.sc-player.playing a.play{
-  display: none;
-}
-
-.sc-player.playing a.pause{
-  display: block;
-}
 
 /* utilities */
 .sc-player .hidden {
   display: none;
 }
 
+#scPlayerEngine{
+  width: 1px;
+  height: 1px;
+  position: fixed;
+  top: 2px;
+  left: 2px;
+}
