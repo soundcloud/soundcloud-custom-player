@@ -1,0 +1,32 @@
+.sc-player a.pause{
+  display: none;
+}
+
+/* tracks */
+.sc-player ul.tracks li{
+  cursor: pointer;
+}
+
+.sc-player ul.tracks li:hover, .sc-player.playing ul.tracks li.active{
+  background-color: #ff6600;
+}
+
+.sc-player ul.tracks li.active{
+  background-color: #ffbb00;
+}
+
+
+/* playing state */
+.sc-player.playing a.play{
+  display: none;
+}
+
+.sc-player.playing a.pause{
+  display: block;
+}
+
+/* utilities */
+.sc-player .hidden {
+  display: none;
+}
+
