@@ -93,19 +93,18 @@
       },
       play = function(track) {
         var url = track.permalink_url;
-        if(!audioEngine){
-          audioEngine = soundcloud.getPlayer(engineId);
-        }
-        if(currentUrl !== url){
-          currentUrl = url;
-          // console.log('will load', url);
-          audioEngine.api_load(url);
-          autoPlay = true;
-          // FIXME if the ready events from player would work, shouldn't need this one
-          pollForLoad();
-        }else{
-          // console.log('will play');
-          audioEngine.api_play();
+        if(audioEngine){
+          if(currentUrl !== url){
+            currentUrl = url;
+            // console.log('will load', url);
+            audioEngine.api_load(url);
+            autoPlay = true;
+            // FIXME if the ready events from player would work, shouldn't need this one
+            pollForLoad();
+          }else{
+            // console.log('will play');
+            audioEngine.api_play();
+          }
         }
       },
       getPlayerData = function(node) {
@@ -122,14 +121,16 @@
         audioEngine.api_pause();
       },
       onSeek = function(node, relative) {
-        // console.log('onSeek', relative);
-        audioEngine.seek(audioEngine.api_getTrackDuration() * event.relative);
+        audioEngine.api_seekTo((audioEngine.api_getTrackDuration() * relative));
       },
       positionPoll;
   
     // listen to audio events
     soundcloud.addEventListener('onPlayerReady', function(flashId, data) {
       console.log('audio engine is ready');
+      if(!audioEngine){
+        audioEngine = soundcloud.getPlayer(engineId);
+      }
       // FIXME the event doesnt get fired after the load()
       if(autoPlay){      
         this.api_play();
@@ -149,7 +150,13 @@
     });
     
     soundcloud.addEventListener('onMediaPlay', function(flashId, data) {
-      positionPoll = setInterval(function() { updates.position.innerHTML = timecode(audioEngine.api_getTrackPosition() * 1000); }, 50);
+      var duration = audioEngine.api_getTrackDuration() * 1000;
+      clearInterval(positionPoll);
+      positionPoll = setInterval(function() {
+        var position = audioEngine.api_getTrackPosition() * 1000;
+        updates.$played.css('width', ((position / duration) * 100) + '%');
+        updates.position.innerHTML = timecode(position); 
+      }, 50);
     });
     
     soundcloud.addEventListener('onMediaPause', function(flashId, data) {
@@ -266,9 +273,9 @@
   $('.sc-buffer').live('click', function(event) {
     var $buffer = $(this),
         $available = $buffer.closest('.sc-time-span'),
-        $player = $buffer.closest('.sc-player');
-        // console.log(event.pageX  - $available.offset().left, $available.width());
-    onSeek($player, event.pageX  - $available.offset().left / $available.width());
+        $player = $buffer.closest('.sc-player'),
+        relative  = (event.pageX  - $available.offset().left) / $available.width();
+    onSeek($player, relative);
     return false;
   });
   

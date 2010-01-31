@@ -74,17 +74,17 @@
 
 /* scrubber */
 .sc-scrubber {
-  display: none;
   background-color: red;
   position: absolute;
+  left: -5000px;
   bottom: 10px;
-  left: 10px;
   height: 20px;
   width: 250px;
 }
 
 .sc-player:hover .sc-scrubber {
   display: block;
+  left: 10px;
 }
 
 .sc-scrubber .sc-time-span{
