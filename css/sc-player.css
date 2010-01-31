@@ -136,6 +136,43 @@
   background-color: #ffbb00;
 }
 
+/* Track info*/
+
+.sc-player .sc-info{
+  position: absolute;
+  top: 10px;
+  left: -5000px;
+  width : 400px;
+  padding: 5px;
+  height: 200px;
+  z-index: 500;
+  margin-left: -200px;
+  background: rgba(30, 30, 30, 0.9);
+}
+
+.sc-player .sc-info.active{
+  left: 50%;
+}
+
+
+.sc-player .sc-info-toggle{
+  position: absolute;
+  top: 10px;
+  left: 20px;
+}
+
+.sc-player .sc-info-toggle.active{
+  left: -5000px;
+}
+
+.sc-player .sc-info-close{
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  color: #bbb;
+}
+
+
 
 
 /* utilities */

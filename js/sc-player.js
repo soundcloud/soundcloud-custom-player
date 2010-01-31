@@ -82,6 +82,17 @@
         // load first tracks
         loadUrl(links[index]);
       },
+      updateTrackInfo = function($player, track) {
+        // update the current track info in the player
+        $('.sc-info', $player).each(function(index) {
+          console.log('updateTrackInfo', track);
+          $('h3', this).html('<a href="' + track.permalink_url +'">' + track.title + '</a>');
+          $('h4', this).html('by <a href="' + track.user.permalink_url +'">' + track.user.username + '</a>');
+          $('p', this).html(track.description || 'no Description');
+        });
+        updates = {$buffer: $('.sc-buffer', $player), $played: $('.sc-played', $player), position:  $('.sc-position', $player)[0],  duration: $('.sc-duration', $player)[0]};
+        updates.duration.innerHTML = timecode(track.duration);
+      },
       pollForLoad = function() {
         setTimeout(function() {
           if(audioEngine.api_getCurrentTrack && audioEngine.api_getCurrentTrack().permalinkUrl === currentUrl){
@@ -112,8 +123,7 @@
       },
       onPlay = function(node, id) {
         var track = getPlayerData(node).tracks[id || 0];
-        updates = {$buffer: $('.sc-buffer', node), $played: $('.sc-played', node), position:  $('.sc-position', node)[0],  duration: $('.sc-duration', node)[0]};
-        updates.duration.innerHTML = timecode(track.duration);
+        updateTrackInfo(node, track);
         // console.log('onPlay', id, track);
         play(track);
       },
@@ -128,10 +138,13 @@
     // listen to audio events
     soundcloud.addEventListener('onPlayerReady', function(flashId, data) {
       console.log('audio engine is ready');
+      // init the audio engine if not been done yet
       if(!audioEngine){
         audioEngine = soundcloud.getPlayer(engineId);
       }
-      // FIXME the event doesnt get fired after the load()
+
+      
+      // FIXME in the widget the event doesnt get fired after the load()
       if(autoPlay){      
         this.api_play();
       }
@@ -174,9 +187,20 @@
         links = $.map($('a', $source).add($source.filter('a')), function(val) { return {url: val.href, title: val.innerHTML}; }),
         $player = $('<div class="sc-player loading"></div>').data('sc-player', {id: playerId}),
         $artworks = $('<ol class="sc-artwork-list"></ol>').appendTo($player),
-        $info = $('<div class="sc-info"></div>').appendTo($player),
+        $info = $('<div class="sc-info"><h3></h3><h4></h4><p></p><a href="#" class="sc-info-close">X</a></div>').appendTo($player),
         $controls = $('<div class="sc-controls"></div>').appendTo($player),
-        $list = $('<ol class="sc-trackslist"></ol>').appendTo($info);
+        $list = $('<ol class="sc-trackslist"></ol>').appendTo($player);
+        
+        // adding controls to the player
+        $player
+          .find('.sc-controls')
+            .append('<a href="#" class="sc-play">Play</a> <a href="#" class="sc-pause hidden">Pause</a>')
+          .end()
+          .append('<a href="#" class="sc-info-toggle">Info</a>')
+          .append('<div class="sc-scrubber"></div>')
+            .find('.sc-scrubber')
+              .append('<div class="sc-time-span"><div class="sc-buffer"></div><div class="sc-played"></div></div>')
+              .append('<div class="sc-time-indicators"><span class="sc-position"></span> | <span class="sc-duration"></span></div>');
         
         parsePlayerData($player, links);
         
@@ -197,6 +221,9 @@
           // set the first track's duration
           $('.sc-duration', $player)[0].innerHTML = timecode(tracks[0].duration);
           $('.sc-position', $player)[0].innerHTML = timecode(0);
+          
+          // set up the first track info
+          updateTrackInfo($player, tracks[0]);
           // check if audio engine is inited properly
           checkAudioEngine();
         });
@@ -221,14 +248,6 @@
     // do something with dom object before you render it, add nodes, etc.
     beforeRender  :   function() {
       var $player = $(this);
-      $player
-        .find('.sc-controls')
-          .append('<a href="#" class="sc-play">Play</a> <a href="#" class="sc-pause hidden">Pause</a>')
-        .end()
-          .append('<div class="sc-scrubber"></div>')
-          .find('.sc-scrubber')
-            .append('<div class="sc-time-span"><div class="sc-buffer"></div><div class="sc-played"></div></div>')
-            .append('<div class="sc-time-indicators"><span class="sc-position"></span> | <span class="sc-duration"></span></div>');
     },
     // initialization, when dom is ready
     onDomReady  : function() {
@@ -250,6 +269,15 @@
     $player.toggleClass('playing', play);
     return false;
   });
+  
+  $('a.sc-info-toggle, a.sc-info-close').live('click', function(event) {
+    var $link = $(this);
+    $link.closest('.sc-player')
+      .find('.sc-info').toggleClass('active').end()
+      .find('a.sc-info-toggle').toggleClass('active');
+    return false;
+  });
+
   
   $('.sc-trackslist li').live('click', function(event) {
     var $track = $(this),
