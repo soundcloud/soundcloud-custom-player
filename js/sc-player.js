@@ -127,7 +127,7 @@
       updatePlayStatus = function(node, status) {
         if(status){
           // reset all other players playing status
-          $('div.sc-player').removeClass('playing');
+          $('div.sc-player.playing').removeClass('playing');
         }
         $(node).toggleClass('playing', status);
       },
@@ -227,7 +227,7 @@
           var tracks = event.playerObj.tracks;
           $.each(tracks, function(index, track) {
             var active = index === 0;
-            $('<li>' + track.title + ', ' + timecode(track.duration) + '</li>').data('sc-track', {id:index}).toggleClass('active', active).appendTo($list);
+            $('<li>' + track.title + ', <span class="sc-track-duration">' + timecode(track.duration) + '</span></li>').data('sc-track', {id:index}).toggleClass('active', active).appendTo($list);
             if(opts.loadArtworks){
               var img = track.artwork_url ? '<img src="' + track.artwork_url.replace('-large', '-t300x300') + '"/>' : '<div class="sc-no-artwork">No Artwork</div>';
               $('<li>' + img +'</li>').appendTo($artworks).toggleClass('active', active);
