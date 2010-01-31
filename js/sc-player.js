@@ -38,7 +38,7 @@
       currentUrl,
       checkAudioEngine = function() {
         // init the engine if it's not ready yet
-        var url = players[0].tracks[0].permalink_url;
+        var url = players[0] && players[0].tracks && players[0].tracks[0].permalink_url;
         // console.log('checkAudioEngine', url);
         if(url && !document.getElementById(engineId)){
           currentUrl = url;
@@ -54,7 +54,10 @@
                 // console.log('data loaded', link.url, data);
                 index += 1;
                 // debugger;
-                if(data.duration){
+                if(data.tracks){
+                  console.log('data.tracks', data.tracks);
+                  playerObj.tracks = playerObj.tracks.concat(data.tracks);
+                }else if(data.duration){
                   // if track, add to player
                   playerObj.tracks.push(data);
                 }else if(data.username){
