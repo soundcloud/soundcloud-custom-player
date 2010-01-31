@@ -6,6 +6,7 @@
   font: 12px Arial, sans-serif;
   background-color: #333;
   color: #eee;
+  margin-bottom: 20px;
 }
 
 .sc-player ol, .sc-player li{
@@ -71,6 +72,44 @@
   display: block;
 }
 
+/* scrubber */
+.sc-scrubber {
+  display: none;
+  background-color: red;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  height: 20px;
+  width: 250px;
+}
+
+.sc-player:hover .sc-scrubber {
+  display: block;
+}
+
+.sc-scrubber .sc-time-span{
+  background-color: #fff;
+  height: 10px;
+  margin: 5px;
+  position: relative;
+}
+
+.sc-scrubber .sc-buffer, .sc-scrubber .sc-played{
+  background-color: #aaa;
+  height: 10px;
+  position: absolute;
+  top: 0;
+}
+
+.sc-scrubber .sc-played{
+  background-color: #333;
+}
+
+.sc-scrubber .sc-time-indicators{
+  position: absolute;
+  right: 0;
+  top: -15px;
+}
 /* tracks */
 
 
@@ -78,6 +117,7 @@
 .sc-player ol.sc-trackslist{
   position: absolute;
   width: 50%;
+  height: 100%;
   top: 0;
   left: 50%;
   overflow: auto;
