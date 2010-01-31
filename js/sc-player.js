@@ -21,7 +21,7 @@
   };
   
   var engineId = 'scPlayerEngine',
-      domain = 'sandbox-soundcloud.com', // 'soundcloud.com'
+      domain = 'soundcloud.com', // 'sandbox-soundcloud.com'
       audioHtml = function(url) {
             return '<object height="1" width="1" id="' + engineId + '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"><param name="movie" value="http://player.' + domain +'/player.swf?url=' + url +'&amp;enable_api=true&amp;player_type=tiny&amp;object_id=' + engineId + '"></param><param name="allowscriptaccess" value="always"></param><embed allowscriptaccess="always" height="1" src="http://player.' + domain +'/player.swf?url=' + url +'&amp;enable_api=true&amp;player_type=tiny&amp;object_id=' + engineId + '" type="application/x-shockwave-flash" width="1" name="' + engineId + '"></embed></object>';
           },
@@ -38,7 +38,7 @@
       currentUrl,
       checkAudioEngine = function() {
         // init the engine if it's not ready yet
-        var url = players[0] && players[0].tracks && players[0].tracks[0].permalink_url;
+        var url = players[0] && players[0].tracks[0] && players[0].tracks[0].permalink_url;
         // console.log('checkAudioEngine', url);
         if(url && !document.getElementById(engineId)){
           currentUrl = url;
@@ -124,17 +124,32 @@
       getPlayerData = function(node) {
         return players[$(node).data('sc-player').id];
       },
+      updatePlayStatus = function(node, status) {
+        if(status){
+          // reset all other players playing status
+          $('div.sc-player').removeClass('playing');
+        }
+        $(node).toggleClass('playing', status);
+      },
       onPlay = function(node, id) {
         var track = getPlayerData(node).tracks[id || 0];
-        updateTrackInfo(node, track);
-        // console.log('onPlay', id, track);
-        play(track);
+        if(audioEngine){
+          updateTrackInfo(node, track);
+          updatePlayStatus(node, true);
+          // console.log('onPlay', id, track);
+          play(track);
+        }
       },
       onPause = function(node) {
-        audioEngine.api_pause();
+        if(audioEngine){
+          updatePlayStatus(node, false);
+          audioEngine.api_pause();
+        }
       },
       onSeek = function(node, relative) {
-        audioEngine.api_seekTo((audioEngine.api_getTrackDuration() * relative));
+        if(audioEngine){
+          audioEngine.api_seekTo((audioEngine.api_getTrackDuration() * relative));
+        }
       },
       positionPoll;
   
@@ -219,8 +234,13 @@
             }
           });
           $player.removeClass('loading');
+          
           // update the element before rendering it in the DOM
-          $player.each(opts.beforeRender);
+          $player.each(function() {
+            if($.isFunction(opts.beforeRender)){
+              opts.beforeRender.call(this, tracks);
+            }
+          });
           // set the first track's duration
           $('.sc-duration', $player)[0].innerHTML = timecode(tracks[0].duration);
           $('.sc-position', $player)[0].innerHTML = timecode(0);
@@ -248,8 +268,8 @@
 
   // default options
   $.fn.scPlayer.defaults = {
-    // do something with dom object before you render it, add nodes, etc.
-    beforeRender  :   function() {
+    // do something with dom object before you render it, add nodes, get more data from the services etc.
+    beforeRender  :   function(tracksData) {
       var $player = $(this);
     },
     // initialization, when dom is ready
@@ -269,7 +289,6 @@
     }else{
       onPause($player);
     }
-    $player.toggleClass('playing', play);
     return false;
   });
   
@@ -293,7 +312,6 @@
       onPause($player);
     }
     $track.addClass('active').siblings('li').removeClass('active');
-    $player.toggleClass('playing', play);
     $('.artworks li', $player).each(function(index) {
       $(this).toggleClass('active', index === trackId);
     });
