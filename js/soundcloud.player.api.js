@@ -1,4 +1,4 @@
-/*
+  /*
 *   JavaScript interface for the SoundCloud Player widget
 *   Author: Matas Petrikas, matas@soundcloud.com
 *   Copyright (c) 2009  SoundCloud Ltd.
