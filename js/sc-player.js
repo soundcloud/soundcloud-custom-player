@@ -122,7 +122,7 @@
               .find('.sc-loading-artwork')
                 .each(function(index) {
                   // if the image isn't loaded yet, do it now
-                  $(this).removeClass('sc-loading-artwork').html(artworkImage(track))
+                  $(this).removeClass('sc-loading-artwork').html(artworkImage(track));
                 });
           }else{
             // reset other artworks
@@ -138,15 +138,6 @@
         // update the track duration in the progress bar
         $('.sc-duration', $player).html(timecode(track.duration));
       },
-      pollForLoad = function() {
-        setTimeout(function() {
-          if(audioEngine.api_getCurrentTrack && audioEngine.api_getCurrentTrack().permalinkUrl === currentUrl){
-            audioEngine.api_play();
-          }else{
-            pollForLoad();
-          }
-        }, 300);
-      },
       play = function(track) {
         var url = track.permalink_url;
         if(audioEngine){
@@ -155,8 +146,6 @@
             // log('will load', url);
             audioEngine.api_load(url);
             autoPlay = true;
-            // FIXME if the ready events from player would work, shouldn't need this one
-            pollForLoad();
           }else{
             // log('will play');
             audioEngine.api_play();
