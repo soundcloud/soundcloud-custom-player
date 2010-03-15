@@ -25,7 +25,7 @@
       debug = true,
       useSandBox = false,
       log = function(args) {
-        if(debug && console && console.log){
+        if(debug && window.console && window.console.log){
           console.log.apply(console, arguments);
         }
       },
@@ -34,11 +34,9 @@
         return '<object height="100%" width="100%" id="' + engineId + '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"><param name="movie" value="http://player.' + domain +'/player.swf?url=' + url +'&amp;enable_api=true&amp;player_type=tiny&amp;object_id=' + engineId + '"></param><param name="allowscriptaccess" value="always"></param><embed allowscriptaccess="always" height="100%" src="http://player.' + domain +'/player.swf?url=' + url +'&amp;enable_api=true&amp;player_type=tiny&amp;object_id=' + engineId + '" type="application/x-shockwave-flash" width="100%" name="' + engineId + '"></embed></object>';
       },
       autoPlay = false,
+      apiKey = 'htuiRd1JP11Ww0X72T1C3g',
       scApiUrl = function(url) {
-        return (/api\./.test(url) ? url + '?' : 'http://api.' + domain +'/resolve?url=' + url + '&') + 'format=json&consumer_key=htuiRd1JP11Ww0X72T1C3g&callback=?';
-      },
-      resolveUrl = function(url) {
-        return scApiUrl('http://api.' + domain +'/resolve?url=' + url);
+        return (/api\./.test(url) ? url + '?' : 'http://api.' + domain +'/resolve?url=' + url + '&') + 'format=json&consumer_key=' + apiKey +'&callback=?';
       },
       audioEngine,
       players = [],
@@ -137,6 +135,8 @@
         };
         // update the track duration in the progress bar
         $('.sc-duration', $player).html(timecode(track.duration));
+        // put the waveform into the progress bar
+        $('.sc-waveform-container', $player).html('<img src="' + track.waveform_url +'" />');
       },
       play = function(track) {
         var url = track.permalink_url;
@@ -247,7 +247,7 @@
           .append('<a href="#info" class="sc-info-toggle">Info</a>')
           .append('<div class="sc-scrubber"></div>')
             .find('.sc-scrubber')
-              .append('<div class="sc-time-span"><div class="sc-buffer"></div><div class="sc-played"></div></div>')
+              .append('<div class="sc-time-span"><div class="sc-waveform-container"></div><div class="sc-buffer"></div><div class="sc-played"></div></div>')
               .append('<div class="sc-time-indicators"><span class="sc-position"></span> | <span class="sc-duration"></span></div>');
         
         // load and parse the track data from SoundCloud API
@@ -359,7 +359,7 @@
   });
   
   // seeking in the loaded track buffer
-  $('.sc-buffer').live('click', function(event) {
+  $('.sc-buffer, .sc-played').live('click', function(event) {
     var $buffer = $(this),
         $available = $buffer.closest('.sc-time-span'),
         $player = $buffer.closest('.sc-player'),
