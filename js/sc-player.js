@@ -1,3 +1,10 @@
+/*
+*   Customizable SoundCloud audio players
+*   Author: Matas Petrikas, matas@soundcloud.com
+*   Copyright (c) 2009  SoundCloud Ltd.
+*   Licensed under the MIT license:
+*   http://www.opensource.org/licenses/mit-license.php
+*/
 ;(function($) {
   // Convert milliseconds into Hours (h), Minutes (m), and Seconds (s)
   var timecode = function(ms) {
@@ -31,7 +38,7 @@
       },
       domain = useSandBox ? 'sandbox-soundcloud.com' : 'soundcloud.com',
       audioHtml = function(url) {
-        return '<object height="100%" width="100%" id="' + engineId + '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"><param name="movie" value="http://player.' + domain +'/player.swf?url=' + url +'&amp;enable_api=true&amp;player_type=tiny&amp;object_id=' + engineId + '"></param><param name="allowscriptaccess" value="always"></param><embed allowscriptaccess="always" height="100%" src="http://player.' + domain +'/player.swf?url=' + url +'&amp;enable_api=true&amp;player_type=tiny&amp;object_id=' + engineId + '" type="application/x-shockwave-flash" width="100%" name="' + engineId + '"></embed></object>';
+        return '<object height="100%" width="100%" id="' + engineId + '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"><param name="movie" value="http://player.' + domain +'/player.swf?url=' + url +'&amp;enable_api=true&amp;player_type=engine&amp;object_id=' + engineId + '"></param><param name="allowscriptaccess" value="always"></param><embed allowscriptaccess="always" height="100%" src="http://player.' + domain +'/player.swf?url=' + url +'&amp;enable_api=true&amp;player_type=engine&amp;object_id=' + engineId + '" type="application/x-shockwave-flash" width="100%" name="' + engineId + '"></embed></object>';
       },
       autoPlay = false,
       apiKey = 'htuiRd1JP11Ww0X72T1C3g',
@@ -81,7 +88,7 @@
                   loadUrl(links[index]);
                 }else{
                   // if loading finishes, anounce it to the GUI
-                  playerObj.node.trigger({type:'onTrackDataLoaded', playerObj: playerObj});
+                  playerObj.node.trigger({type:'onTrackDataLoaded.scPlayer', playerObj: playerObj});
                 }
              });
            };
@@ -137,6 +144,8 @@
         $('.sc-duration', $player).html(timecode(track.duration));
         // put the waveform into the progress bar
         $('.sc-waveform-container', $player).html('<img src="' + track.waveform_url +'" />');
+        
+        $player.trigger('onPlayerTrackSwitch.scPlayer', [track]);
       },
       play = function(track) {
         var url = track.permalink_url;
@@ -155,28 +164,30 @@
       getPlayerData = function(node) {
         return players[$(node).data('sc-player').id];
       },
-      updatePlayStatus = function(node, status) {
+      updatePlayStatus = function(player, status) {
         if(status){
           // reset all other players playing status
           $('div.sc-player.playing').removeClass('playing');
         }
-        $(node).toggleClass('playing', status);
+        $(player)
+          .toggleClass('playing', status)
+          .trigger((status ? 'onPlayerPlay' : 'onPlayerPause') + '.scPlayer');;
       },
-      onPlay = function(node, id) {
-        var track = getPlayerData(node).tracks[id || 0];
+      onPlay = function(player, id) {
+        var track = getPlayerData(player).tracks[id || 0];
         if(audioEngine){
-          updateTrackInfo(node, track);
-          updatePlayStatus(node, true);
+          updateTrackInfo(player, track);
+          updatePlayStatus(player, true);
           play(track);
         }
       },
-      onPause = function(node) {
+      onPause = function(player) {
         if(audioEngine){
-          updatePlayStatus(node, false);
+          updatePlayStatus(player, false);
           audioEngine.api_pause();
         }
       },
-      onSeek = function(node, relative) {
+      onSeek = function(player, relative) {
         if(audioEngine){
           audioEngine.api_seekTo((audioEngine.api_getTrackDuration() * relative));
         }
@@ -228,16 +239,19 @@
     });
 
   // Generate skinnable HTML/CSS/JavaScript based SoundCloud players from links to SoundCloud resources
-  $.scPlayer = function(node, options) {
+  $.scPlayer = function(options, node) {
     var opts = $.extend({}, $.fn.scPlayer.defaults, options),
         playerId = players.length,
-        $source = $(node),
-        links = $.map($('a', $source).add($source.filter('a')), function(val) { return {url: val.href, title: val.innerHTML}; }),
+        $source = node && $(node),
+        links = opts.links || $.map($('a', $source).add($source.filter('a')), function(val) { return {url: val.href, title: val.innerHTML}; }),
         $player = $('<div class="sc-player loading"></div>').data('sc-player', {id: playerId}),
         $artworks = $('<ol class="sc-artwork-list"></ol>').appendTo($player),
         $info = $('<div class="sc-info"><h3></h3><h4></h4><p></p><a href="#" class="sc-info-close">X</a></div>').appendTo($player),
         $controls = $('<div class="sc-controls"></div>').appendTo($player),
         $list = $('<ol class="sc-trackslist"></ol>').appendTo($player);
+        
+        // enable autoplay if set in the options
+        autoPlay = opts.autoPlay;
         
         // adding controls to the player
         $player
@@ -253,8 +267,8 @@
         // load and parse the track data from SoundCloud API
         loadTracksData($player, links);
         // init the player GUI, when the tracks data was laoded
-        $player.bind('onTrackDataLoaded', function(event) {
-          // log('onTrackDataLoaded', event.playerObj, playerId, event.target);
+        $player.bind('onTrackDataLoaded.scPlayer', function(event) {
+          // log('onTrackDataLoaded.scPlayer', event.playerObj, playerId, event.target);
           var tracks = event.playerObj.tracks;
           $.each(tracks, function(index, track) {
             var active = index === 0;
@@ -271,7 +285,9 @@
               .toggleClass('active', active)
               .data('sc-track', track);
           });
-          $player.removeClass('loading');
+          $player
+            .removeClass('loading')
+            .trigger('onPlayerInit.scPlayer');
           
           // update the element before rendering it in the DOM
           $player.each(function() {
@@ -289,8 +305,10 @@
         });
 
 
-    // replace the data source
-    $source.replaceWith($player);
+    // replace the DOM source (if there's one)
+    $source.each(function(index) {
+      $(this).replaceWith($player);
+    });
 
     return $player;
   };
@@ -298,13 +316,13 @@
   // plugin wrapper
   $.fn.scPlayer = function(options) {
     return this.each(function() {
-      $.scPlayer(this, options);
+      $.scPlayer(options, this);
     });
   };
 
   // default plugin options
   $.fn.scPlayer.defaults = {
-    // do something with dom object before you render it, add nodes, get more data from the services etc.
+    // do something with the dom object before you render it, add nodes, get more data from the services etc.
     beforeRender  :   function(tracksData) {
       var $player = $(this);
     },
@@ -312,6 +330,7 @@
     onDomReady  : function() {
       $('a.sc-player, div.sc-player').scPlayer();
     },
+    autoPlay: false,
     loadArtworks: 5
   };
   
