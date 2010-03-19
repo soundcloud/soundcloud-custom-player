@@ -42,27 +42,27 @@
 
 .sc-player .sc-controls a {
   color: transparent;
-  background: url('../../css/red/img/play.png');
+  background: url('img/play.png');
 }
 
 .sc-player .sc-controls a:hover {
-  background: url('../../css/red/img/play-hover.png');
+  background: url('img/play-hover.png');
 }
 
 .sc-player .sc-controls a.sc-pause {
-  background: url('../../css/red/img/play.png');
+  background: url('img/play.png');
 }
 
 .sc-player .sc-controls a.sc-pause:hover{
-  background: url('../../css/red/img/play-hover.png');
+  background: url('img/play-hover.png');
 }
 
 .sc-player.playing .sc-controls a.sc-pause{
-  background: url('../../css/red/img/pause.png');
+  background: url('img/pause.png');
 }
 
 .sc-player.playing .sc-controls a.sc-pause:hover{
-  background: url('../../css/red/img/pause-hover.png');
+  background: url('img/pause-hover.png');
 }
 
 .sc-scrubber .sc-time-indicators{

@@ -49,27 +49,27 @@
 
 .sc-player .sc-controls a {
   color: transparent;
-  background: url('../../css/standard/img/play-orange.png');
+  background: url('../../css/sc-player-standard/img/play-orange.png');
 }
 
 .sc-player .sc-controls a:hover {
-  background: url('../../css/standard/img/play-orange-hover.png');
+  background: url('../../css/sc-player-standard/img/play-orange-hover.png');
 }
 
 .sc-player .sc-controls a.sc-pause {
-  background: url('../../css/standard/img/play-orange.png');
+  background: url('../../css/sc-player-standard/img/play-orange.png');
 }
 
 .sc-player .sc-controls a.sc-pause:hover{
-  background: url('../../css/standard/img/play-orange-hover.png');
+  background: url('../../css/sc-player-standard/img/play-orange-hover.png');
 }
 
 .sc-player.playing .sc-controls a.sc-pause{
-  background: url('../../css/standard/img/pause-orange.png');
+  background: url('../../css/sc-player-standard/img/pause-orange.png');
 }
 
 .sc-player.playing .sc-controls a.sc-pause:hover{
-  background: url('../../css/standard/img/pause-orange-hover.png');
+  background: url('../../css/sc-player-standard/img/pause-orange-hover.png');
 }  
 
 .sc-scrubber .sc-time-indicators{

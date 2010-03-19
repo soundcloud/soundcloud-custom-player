@@ -9,6 +9,7 @@ Download the CSS and JS files for the sc-player here:
 http://github.com/mataspetrikas/jQuery-SoundCloud-Player-Plugin/archives/master
 
 First, add the player css files in the 'head' tag of your page source:
+link rel="stylesheet" href="../css/sc-player-standard.css" type="text/css">
 <link rel="stylesheet" href="../css/sc-player.css" type="text/css">
 
 Then add the script tags at the end of your 'body' tag (in case you're already using jQuery on your site, skip the first script tag):
