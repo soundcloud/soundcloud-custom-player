@@ -1,0 +1,31 @@
+body {
+  font-family: 'arial', helvetica, sans serif;
+  width: 800px;
+  margin: 0 auto;
+  background: red;
+  color: #fff;
+}
+
+h1 {
+  border-bottom: 1px dashed #fff;
+  padding: 20px 0;
+ -webkit-transform: rotate(9deg);
+ -moz-transform: rotate(9deg);
+ transform: rotate(9deg);
+}
+
+h2 {
+  background:#fff;
+  color: red;
+  padding: 5px;
+  font-size: 0.8em;
+}
+
+.footer {
+  border-top: 1px dashed #fff;
+  padding: 10px 0;
+  text-align: right;
+  -webkit-transform: rotate(-9deg);
+  -moz-transform: rotate(-9deg);
+  transform: rotate(-9deg);
+}

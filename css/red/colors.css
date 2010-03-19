@@ -1,0 +1,128 @@
+.sc-player {
+  font: 12px arial, sans-serif;
+  background-color: red;
+  color: #333;
+  font-size: 0.6em;
+  line-height: 1.6em;
+  font-weight: bold;
+}
+
+.sc-player a {
+  text-decoration: none;
+  color: #333;
+}
+
+/* scrubber */
+
+.sc-scrubber {
+  background-color: red;
+}
+
+.sc-scrubber .sc-time-span {
+  background-color: #fff;
+}
+
+.sc-scrubber .sc-time-span img {
+  height: 80px;
+  width: 800px;
+  background-color: red;
+}
+
+.sc-scrubber .sc-buffer, .sc-scrubber .sc-played {
+  background-color: #fff;
+  opacity: 0.4;
+}
+
+.sc-scrubber .sc-played {
+  background-color: #333;
+  opacity: 0.4;
+}
+
+/* controls */
+
+.sc-player .sc-controls a {
+  color: transparent;
+  background: url('../../css/red/img/play.png');
+}
+
+.sc-player .sc-controls a:hover {
+  background: url('../../css/red/img/play-hover.png');
+}
+
+.sc-player .sc-controls a.sc-pause {
+  background: url('../../css/red/img/play.png');
+}
+
+.sc-player .sc-controls a.sc-pause:hover{
+  background: url('../../css/red/img/play-hover.png');
+}
+
+.sc-player.playing .sc-controls a.sc-pause{
+  background: url('../../css/red/img/pause.png');
+}
+
+.sc-player.playing .sc-controls a.sc-pause:hover{
+  background: url('../../css/red/img/pause-hover.png');
+}
+
+.sc-scrubber .sc-time-indicators{
+  background: #fff;
+  color: red;
+  padding: 4px;
+}
+
+/* Track listings*/
+
+.sc-player ol.sc-trackslist li {
+  background: #e5e5e5;
+  padding: 5px;
+}
+
+.sc-player ol.sc-trackslist li.active, .sc-player ol.sc-trackslist li:hover {
+  background-color: #fff;
+  padding: 5px;
+  color: red;
+}
+
+.sc-player ol.sc-trackslist li.active a {
+  color: red;
+}
+
+.sc-track-duration {
+  text-align: right;
+  float: right;
+  padding: 0 5px;
+  margin-left: 5px;
+  display: none;
+}
+
+/* Track info*/
+
+.sc-player .sc-info{
+  background: #fff;
+  opacity: 0.9;
+}
+
+.sc-player .sc-info-toggle{
+  background: #fff;
+  color: #003399;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-box-shadow: 1px 1px 4px #ccc;
+  -webkit-box-shadow: 1px 1px 4px #ccc;
+  padding: 4px;
+}
+
+.sc-player .sc-info-toggle:hover{
+  background: #003399;
+  color: #eee;
+}
+
+.sc-player .sc-info-close{
+  background: #003399;
+  color: #fff;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  padding: 2px 4px;
+  font-weight: bold;
+}

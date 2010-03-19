@@ -1,0 +1,3 @@
+@import url("../css/standard/standards.css"); 
+@import url("../css/standard/structure-horizontal.css"); /* switch here between 'horizontal' and 'vertical' structure */
+@import url("../css/standard/colors-green.css"); /* switch here between 'blue', 'orange' and 'green' color-shemes */

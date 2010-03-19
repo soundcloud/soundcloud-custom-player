@@ -1,0 +1,134 @@
+.sc-player {
+  font: 12px Arial, sans-serif;
+  background-color: #333;
+  color: #fff;
+  font-size: 0.6em;
+  line-height: 1.6em;
+  -moz-box-shadow: 1px 1px 4px #333;
+  -webkit-box-shadow: 1px 1px 4px #333;
+}
+
+.sc-player a {
+  text-decoration: none;
+  color: #fff;
+}
+
+/* scrubber */
+
+.sc-scrubber {
+  background-color: #e5e5e5;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+}
+
+.sc-scrubber .sc-time-span {
+  background-color: #000;
+}
+
+.sc-scrubber .sc-time-span img {
+  height: 30px;
+  width: 100%;
+  background-color: #22B573;
+  background: -moz-linear-gradient(top, black, #22B573 0px, #7decba 90%);
+  background: -webkit-gradient(linear, left top, left 90%, from(black), color-stop(0%, #22B573), to(#7decba));
+
+}
+
+.sc-scrubber .sc-buffer, .sc-scrubber .sc-played {
+  background-color: #ccc;
+  opacity: 0.4;
+}
+
+.sc-scrubber .sc-played {
+  background-color: #000;
+  opacity: 0.4;
+}
+
+/* controls */
+
+.sc-player .sc-controls a {
+  color: transparent;
+  background: url('../../css/standard/img/play-green.png');
+}
+
+.sc-player .sc-controls a:hover {
+  background: url('../../css/standard/img/play-green-hover.png');
+}
+
+.sc-player .sc-controls a.sc-pause {
+  background: url('../../css/standard/img/play-green.png');
+}
+
+.sc-player .sc-controls a.sc-pause:hover{
+  background: url('../../css/standard/img/play-green-hover.png');
+}
+
+.sc-player.playing .sc-controls a.sc-pause{
+  background: url('../../css/standard/img/pause-green.png');
+}
+
+.sc-player.playing .sc-controls a.sc-pause:hover{
+  background: url('../../css/standard/img/pause-green-hover.png');
+}  
+
+.sc-scrubber .sc-time-indicators{
+  background: #22B573;
+  color: #fff;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  padding: 4px;
+}
+
+/* Track listings*/
+
+.sc-player ol.sc-trackslist li.active, .sc-player ol.sc-trackslist li:hover {  
+  background: #22B573;    
+  padding: 4px;
+  color: #fff;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+.sc-player ol.sc-trackslist li.active a {
+  color: #fff;
+}
+
+.sc-track-duration {
+  text-align: right;
+  float: right;
+  padding: 0 5px;
+  margin-left: 5px;
+}
+
+/* Track info*/
+
+.sc-player .sc-info{
+  background: #333;
+  opacity: 0.9;
+  color: #fff;
+}
+
+.sc-player .sc-info a {
+  color: #fff;
+}
+
+.sc-player .sc-info-toggle{
+  background: #22B573;
+  color: #fff;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  padding: 4px;
+}
+
+.sc-player .sc-info-toggle:hover{
+  background: #333;
+  color: #fff;
+}
+
+.sc-player .sc-info-close{
+  background: #22B573;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  padding: 2px 4px;
+  font-weight: bold;
+}

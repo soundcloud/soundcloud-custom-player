@@ -4,10 +4,6 @@
 *   Copyright (c) 2009  SoundCloud Ltd.
 *   Licensed under the MIT license:
 *   http://www.opensource.org/licenses/mit-license.php
-*
-*   Usage:
-*   <a href="http://soundcloud.com/matas/hobnotropic" class="sc-player">My new dub track</a>
-*   The link will be automatically replaced by the HTML based player
 */
 (function(){
   var isIE = (/msie/i).test(navigator.userAgent) && !(/opera/i).test(navigator.userAgent);

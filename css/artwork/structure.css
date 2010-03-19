@@ -1,0 +1,173 @@
+.sc-player{
+  width: 1000px;
+  height: 300px;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.sc-player ol, .sc-player li{
+  margin: 0;
+  padding: 0;
+  list-style-position: inside;
+}
+
+/* Artworks */
+
+.sc-player .sc-artwork-list{
+  width: 100%;
+  height: 50%;
+  background-color: #transparent;
+  list-style-type: none;
+  position: relative;
+}
+
+.sc-player .sc-artwork-list li{
+  list-style-type: none;
+  float: left;
+  width: 200px;
+}
+
+.sc-player .sc-artwork-list li.active{
+  list-style-type: none;
+  display: block;
+}
+
+.sc-player .sc-artwork-list li img, .sc-player .sc-artwork-list li div{
+  list-style-type: none;
+  width: 200px;
+  height: 200px;
+}
+
+/* controls */
+
+.sc-player .sc-controls{
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 242px;
+  left: 0;
+  
+}
+
+.sc-player .sc-controls a{
+  display: block;
+  width: 40px;
+  height: 40px;
+}
+
+.sc-player .sc-controls a.sc-pause{
+  display: none;
+}
+
+.sc-player.playing .sc-controls a.sc-play{
+  display: none;
+}
+
+.sc-player.playing .sc-controls a.sc-pause{
+  display: block;
+}
+
+/* scrubber */
+
+.sc-scrubber {
+  position: absolute;
+  left: 50px;
+  top: 240px;
+  height: 40px;
+  width: 950px;
+  display: block;
+}
+
+.sc-scrubber .sc-time-span{
+  height: 30px;
+  margin: 5px;
+  position: relative;
+}
+
+.sc-scrubber .sc-time-span img {
+  height: 30px;
+  width: 940px;
+}
+
+.sc-scrubber .sc-buffer, .sc-scrubber .sc-played{
+  height: 30px;
+  position: absolute;
+  top: 0;
+}
+
+.sc-scrubber .sc-time-indicators{
+  position: absolute;
+  right: 0;
+  top: -30px;
+}
+
+/* tracks */
+
+/* Track listings*/
+
+.sc-player ol.sc-trackslist{
+  position: absolute;
+  float: left;
+  width: 100%;
+  top: 0;
+}
+
+.sc-player ol.sc-trackslist li{
+  float: left;
+  width: 190px;
+  height: 60px;
+  cursor: pointer;
+  margin: 0px;
+  padding: 150px 5px 5px 5px;
+  list-style: none;
+}
+
+/* Track info*/
+
+.sc-player .sc-info{
+  position: absolute;
+  top: 10px;
+  left: -5000px;
+  width : 400px;
+  padding: 5px;
+  height: 200px;
+  z-index: 500;
+  margin-left: -200px;
+}
+
+.sc-player .sc-info.active{
+  left: 50%;
+  top: 12%;
+}
+
+
+.sc-player .sc-info-toggle{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: none;
+}
+
+.sc-player .sc-info-toggle.active{
+  left: -5000px;
+}
+
+.sc-player .sc-info-close{
+  position: absolute;
+  top: 10px;
+  right: 20px;
+}
+
+/* utilities */
+
+.sc-player .hidden {
+  display: none;
+}
+
+.scPlayerEngineContainer{
+  width: 1px;
+  height: 1px;
+  position: fixed;
+  top: 2px;
+  left: 2px;
+}

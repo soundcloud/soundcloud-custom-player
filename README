@@ -1,4 +1,4 @@
-jQuery Plugin: Customizable SoundCloud audio players
+scPlayer jQuery plugin: Customizable SoundCloud audio players
 
 This plugin allows you to create easily customizable, HTML/CSS/JS based audio players. It uses the official SoundCloud Flash widget for the audio streaming and widget API for it's control.
 
