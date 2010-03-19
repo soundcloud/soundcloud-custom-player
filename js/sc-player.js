@@ -281,7 +281,7 @@
               return;
             }
             // create an item in the playlist
-            $('<li><a href="' + track.permalink_url +'">' + track.title + '</a><span class="sc-track-duration">, ' + timecode(track.duration) + '</span></li>').data('sc-track', {id:index}).toggleClass('active', active).appendTo($list);
+            $('<li><a href="' + track.permalink_url +'">' + track.title + '</a><span class="sc-track-duration">' + timecode(track.duration) + '</span></li>').data('sc-track', {id:index}).toggleClass('active', active).appendTo($list);
             // create an item in the artwork list
             $('<li></li>')
               .append(artworkImage(track, index >= opts.loadArtworks))

@@ -38,6 +38,10 @@
   height: 100%;
 }
 
+.sc-no-artwork {
+  display: none;
+}
+
 /* controls */
 
 .sc-player .sc-controls{
