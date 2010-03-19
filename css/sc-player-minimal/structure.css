@@ -70,10 +70,15 @@
   width: 95.5%;
 }
 
-.sc-player:hover .sc-scrubber {
+.sc-player:hover .sc-scrubber, .sc-player.playing .sc-scrubber {
   display: block;
   left: 45px;
 }
+
+.sc-player.playing:hover .sc-scrubber {
+  display: none;
+}
+
 
 .sc-scrubber .sc-time-span{
   height: 30px;
