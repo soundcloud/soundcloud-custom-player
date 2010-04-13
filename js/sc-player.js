@@ -1,5 +1,5 @@
 /*
-*   Customizable SoundCloud audio players
+*   SoundCloud Custom Player jQuery Plugin
 *   Author: Matas Petrikas, matas@soundcloud.com
 *   Copyright (c) 2009  SoundCloud Ltd.
 *   Licensed under the MIT license:
@@ -60,7 +60,7 @@
         if(url && !document.getElementById(engineId)){
           currentUrl = url;
           // create a container for the flash engine (IE needs that to operate properly)
-          $('<div class="scPlayerEngineContainer"></div>').appendTo(document.body).html(audioHtml(url));
+          $('<div class="sc-player-engine-container"></div>').appendTo(document.body).html(audioHtml(url));
         }
       },
 
@@ -242,7 +242,7 @@
       clearInterval(positionPoll);
     });
 
-  // Generate skinnable HTML/CSS/JavaScript based SoundCloud players from links to SoundCloud resources
+  // Generate custom skinnable HTML/CSS/JavaScript based SoundCloud players from links to SoundCloud resources
   $.scPlayer = function(options, node) {
     var opts = $.extend({}, $.fn.scPlayer.defaults, options),
         playerId = players.length,

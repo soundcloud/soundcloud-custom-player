@@ -164,7 +164,7 @@
   display: none;
 }
 
-.scPlayerEngineContainer{
+.sc-player-engine-container{
   width: 1px;
   height: 1px;
   position: fixed;

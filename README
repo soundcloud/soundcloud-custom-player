@@ -1,4 +1,4 @@
-scPlayer jQuery plugin: Customizable SoundCloud audio players
+SoundCloud Custom Player as a jQuery plugin
 
 This plugin allows you to create easily customizable, HTML/CSS/JS based audio players. It uses the official SoundCloud Flash widget for the audio streaming and widget API for it's control.
 
@@ -6,16 +6,16 @@ Getting started
 The player setup is relatively easy:
 
 Download the CSS and JS files for the sc-player here:
-http://github.com/mataspetrikas/jQuery-SoundCloud-Player-Plugin/archives/master
+http://github.com/soundcloud/soundcloud-custom-player/archives/master
 
 First, add the player css files in the 'head' tag of your page source:
 link rel="stylesheet" href="../css/sc-player-standard.css" type="text/css">
 <link rel="stylesheet" href="../css/sc-player.css" type="text/css">
 
 Then add the script tags at the end of your 'body' tag (in case you're already using jQuery on your site, skip the first script tag):
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script type="text/javascript" src="../js/soundcloud.player.api.js"></script>
-<script type="text/javascript" src="../js/sc-player.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" ></script>
+<script type="text/javascript" src="../js/soundcloud.player.api.js" ></script>
+<script type="text/javascript" src="../js/sc-player.js" ></script>
 
 
 And now let's create a player! Put this into you HTML code:
@@ -26,7 +26,7 @@ Now reload your page, and instead of the link you should see a cool new widget.
 Note: when you're doing the test, please make sure you're running it on the local or remote web-server (http://localhost, 127.0.0.1/testpage, yoursite.com, etc.) Only so you can be sure that the Flash component will be initialized correctly and the track will actually play. If you're still experiencing problems, verify that the links to JS files are correct. Also make sure you're using an url of an existing track :)
 
 Per default the player works in 'zero-config' mode. It means, you don't need to change or write any JavaScript to get a working player on your site. More advanced techniques are described in the documentation:
-http://wiki.github.com/mataspetrikas/jQuery-SoundCloud-Player-Plugin/
+http://wiki.github.com/soundcloud/soundcloud-custom-player
 
 
 The project is published under an MIT license:
