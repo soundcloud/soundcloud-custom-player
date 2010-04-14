@@ -1,5 +1,5 @@
 
-.sc-player{
+.sc-player {
   width: 540px;
   height: 270px;
   position: relative;
@@ -76,10 +76,13 @@
 
 .sc-scrubber {
   position: absolute;
-  left: -5000px;
+  left: 10px;
   bottom: 10px;
   height: 40px;
   width: 250px;
+  -webkit-box-shadow: 1px 1px 4px rgba(0,0,0,0.30);
+  -moz-box-shadow: 1px 1px 4px rgba(0,0,0,0.30);
+  display: none;
 }
 
 .sc-player:hover .sc-scrubber {
@@ -109,22 +112,27 @@
 
 /* Track listings*/
 
-.sc-player ol.sc-trackslist{
+.sc-player ol.sc-trackslist {
   position: absolute;
   float: left;
   width: 50%;
-  height: 100%;
-  top: 0;
+  height: 260px;
+  top: 5px;
   left: 50%;
   overflow: auto;
 }
 
 .sc-player ol.sc-trackslist li{
-  float: left;
-  width: 92%;
   cursor: pointer;
-  margin: 5px;
-  padding: 5px;
+  margin: 1px 5px;
+  padding: 3px 30px 3px 5px;
+  position: relative;
+}
+
+.sc-player ol.sc-trackslist li span {
+  position: absolute;
+  right: 0;
+  top: 3px;
 }
 
 /* Track info*/
