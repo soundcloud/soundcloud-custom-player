@@ -382,11 +382,12 @@
   });
   
   // seeking in the loaded track buffer
-  $('.sc-buffer, .sc-played').live('click', function(event) {
-    var $buffer = $(this),
-        $available = $buffer.closest('.sc-time-span'),
-        $player = $buffer.closest('.sc-player'),
-        relative  = (event.pageX  - $available.offset().left) / $available.width();
+  $('.sc-time-span').live('click', function(event) {
+    var $scrubber = $(this),
+        $buffer = $scrubber.find('.sc-buffer'),
+        $available = $scrubber.find('.sc-waveform-container img'),
+        $player = $scrubber.closest('.sc-player'),
+        relative  = Math.min($buffer.width(), (event.pageX  - $available.offset().left)) / $available.width();
     onSeek($player, relative);
     return false;
   });

@@ -9,13 +9,13 @@ Download the CSS and JS files for the sc-player here:
 http://github.com/soundcloud/soundcloud-custom-player/archives/master
 
 First, add the player css files in the 'head' tag of your page source:
-link rel="stylesheet" href="../css/sc-player-standard.css" type="text/css">
+<link rel="stylesheet" href="../css/sc-player-standard.css" type="text/css">
 <link rel="stylesheet" href="../css/sc-player.css" type="text/css">
 
 Then add the script tags at the end of your 'body' tag (in case you're already using jQuery on your site, skip the first script tag):
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" ></script>
-<script type="text/javascript" src="../js/soundcloud.player.api.js" ></script>
-<script type="text/javascript" src="../js/sc-player.js" ></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="../js/soundcloud.player.api.js"></script>
+<script type="text/javascript" src="../js/sc-player.js"></script>
 
 
 And now let's create a player! Put this into you HTML code:

@@ -75,9 +75,6 @@
   left: 45px;
 }
 
-.sc-player.playing:hover .sc-scrubber {
-  display: none;
-}
 
 
 .sc-scrubber .sc-time-span{
