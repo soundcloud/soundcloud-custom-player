@@ -42,7 +42,17 @@
       },
       domain = useSandBox ? 'sandbox-soundcloud.com' : 'soundcloud.com',
       audioHtml = function(url) {
-        return '<object height="100%" width="100%" id="' + engineId + '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"><param name="movie" value="http://player.' + domain +'/player.swf?url=' + url +'&amp;enable_api=true&amp;player_type=engine&amp;object_id=' + engineId + '"></param><param name="allowscriptaccess" value="always"></param><embed allowscriptaccess="always" height="100%" src="http://player.' + domain +'/player.swf?url=' + url +'&amp;enable_api=true&amp;player_type=engine&amp;object_id=' + engineId + '" type="application/x-shockwave-flash" width="100%" name="' + engineId + '"></embed></object>';
+        var swf = 'http://player.' + domain +'/player.swf?url=' + url +'&amp;enable_api=true&amp;player_type=engine&amp;object_id=' + engineId;
+        if ($.browser.msie) {
+          return '<object height="100%" width="100%" id="' + engineId + '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" data="' + swf + '">'+
+            '<param name="movie" value="' + swf + '" />'+
+            '<param name="allowscriptaccess" value="always" />'+
+            '</object>';
+        } else {
+          return '<object height="100%" width="100%" id="' + engineId + '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">'+
+            '<embed allowscriptaccess="always" height="100%" width="100%" src="' + swf + '" type="application/x-shockwave-flash" name="' + engineId + '" />'+
+            '</object>';
+        }
       },
       autoPlay = false,
       apiKey = 'htuiRd1JP11Ww0X72T1C3g',
@@ -175,7 +185,7 @@
         }
         $(player)
           .toggleClass('playing', status)
-          .trigger((status ? 'onPlayerPlay' : 'onPlayerPause') + '.scPlayer');;
+          .trigger((status ? 'onPlayerPlay' : 'onPlayerPause') + '.scPlayer');
       },
       onPlay = function(player, id) {
         var track = getPlayerData(player).tracks[id || 0];
