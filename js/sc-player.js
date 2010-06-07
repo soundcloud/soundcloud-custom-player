@@ -31,48 +31,182 @@
     return tc.join('.');
   };
   
+  var audioEngine = function() {
+    var html5AudioAvailable = function() {
+        var state = false;
+        try{
+          var a = new Audio();
+          state = a.canPlayType && (/maybe|probably/).test(a.canPlayType('audio/mpeg'));
+          // let's enable the html5 audio on selected mobile devices first, unlikely to support Flash
+          // the desktop browsers are still better with Flash, e.g. see the Safari 10.6 bug
+          state = state &&  (/iPad|iphone|mobile|pre\//i).test(navigator.userAgent);
+        }catch(e){
+          // there's no audio support here sadly
+        }
+        return state;
+    }(),
+    callbacks = {
+      onReady: function() {
+        $(document).trigger('scPlayer:onAudioReady');
+      },
+      onPlay: function() {
+        $(document).trigger('scPlayer:onMediaPlay');
+      },
+      onPause: function() {
+        $(document).trigger('scPlayer:onMediaPause');
+      },
+      onEnd: function() {
+        $(document).trigger('scPlayer:onMediaEnd');
+      },
+      onBuffer: function(percent) {
+        $(document).trigger({type: 'scPlayer:onMediaBuffering', percent: percent});
+      }
+    };
+    
+    var html5Driver = function() {
+      var player = new Audio(),
+          onTimeUpdate = function(event){
+            var obj = event.target,
+                buffer = ((obj.buffered.length && obj.buffered.end(0)) / obj.duration) * 100;
+            // ipad has no progress events implemented yet
+            callbacks.onBuffer(buffer);
+            // anounce if it's finished for the clients without 'ended' events implementation
+            if (obj.currentTime === obj.duration) { callbacks.onEnd(); }
+          },
+          onProgress = function(event) {
+            var obj = event.target,
+                buffer = ((obj.buffered.length && obj.buffered.end(0)) / obj.duration) * 100;
+            callbacks.onBuffer(buffer);
+          };
+        
+      $('<div class="sc-player-engine-container"></div>').appendTo(document.body).append(player);
+      
+      // prepare the listeners
+      player.addEventListener('play', callbacks.onPlay, false);
+      player.addEventListener('pause', callbacks.onPause, false);
+      player.addEventListener('ended', callbacks.onEnd, false);
+      player.addEventListener('timeupdate', onTimeUpdate, false);
+      player.addEventListener('progress', onProgress, false);
+
+      
+      return {
+        load: function(track) {
+          player.pause();
+          player.src = track.stream_url;
+          player.load();
+          player.play();
+        },
+        play: function() {
+          player.play();
+        },
+        pause: function() {
+          player.pause();
+        },
+        seek: function(relative){
+          player.currentTime = player.duration * relative;
+          player.play();
+        },
+        getDuration: function() {
+          return player.duration;
+        },
+        getPosition: function() {
+          return player.currentTime;
+        }
+      };
+
+    };
+    
+
+    
+    var flashDriver = function() {
+      var engineId = 'scPlayerEngine',
+          flashHtml = function(url) {
+            var swf = 'http://player.soundcloud.com/player.swf?url=' + url +'&amp;enable_api=true&amp;player_type=engine&amp;object_id=' + engineId;
+            if ($.browser.msie) {
+              return '<object height="100%" width="100%" id="' + engineId + '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" data="' + swf + '">'+
+                '<param name="movie" value="' + swf + '" />'+
+                '<param name="allowscriptaccess" value="always" />'+
+                '</object>';
+            } else {
+              return '<object height="100%" width="100%" id="' + engineId + '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">'+
+                '<embed allowscriptaccess="always" height="100%" width="100%" src="' + swf + '" type="application/x-shockwave-flash" name="' + engineId + '" />'+
+                '</object>';
+            }
+          };
+
+      
+      var player;
+      // listen to audio engine events
+      // when the loaded track is ready to play
+      soundcloud.addEventListener('onPlayerReady', function(flashId, data) {
+        player = soundcloud.getPlayer(engineId);
+        callbacks.onReady();
+      });
+    
+      // when the loaded track finished playing
+      soundcloud.addEventListener('onMediaEnd', callbacks.onEnd);
+    
+      // when the loaded track is still buffering
+      soundcloud.addEventListener('onMediaBuffering', function(flashId, data) {
+        callbacks.onBuffer(data.percent);
+      });
+    
+      // when the loaded track started to play
+      soundcloud.addEventListener('onMediaPlay', callbacks.onPlay);
+    
+      // when the loaded track is was paused
+      soundcloud.addEventListener('onMediaPause', callbacks.onPause);
+      
+      return {
+        load: function(track) {
+          var url = track.permalink_url;
+          if(player){
+            player.api_load(url);
+          }else{
+            // create a container for the flash engine (IE needs this to operate properly)
+            $('<div class="sc-player-engine-container"></div>').appendTo(document.body).html(flashHtml(url));
+          }
+        },
+        play: function() {
+          player && player.api_play();
+        },
+        pause: function() {
+          player && player.api_pause();
+        },
+        seek: function(relative){
+          player && player.api_seekTo((player.api_getDuration() * relative));
+        },
+        getDuration: function() {
+          return player && player.api_getDuration();
+        },
+        getPosition: function() {
+          return player && player.api_getPosition();
+        }
+      };
+    };
+    
+    return html5AudioAvailable? html5Driver() : flashDriver();
+
+  }();
   
-  var engineId = 'scPlayerEngine',
-      debug = true,
+  
+  
+      var debug = true,
       useSandBox = false,
       log = function(args) {
         if(debug && window.console && window.console.log){
-          console.log.apply(console, arguments);
+          window.console.log.apply(window.console, arguments);
         }
       },
       domain = useSandBox ? 'sandbox-soundcloud.com' : 'soundcloud.com',
-      audioHtml = function(url) {
-        var swf = 'http://player.' + domain +'/player.swf?url=' + url +'&amp;enable_api=true&amp;player_type=engine&amp;object_id=' + engineId;
-        if ($.browser.msie) {
-          return '<object height="100%" width="100%" id="' + engineId + '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" data="' + swf + '">'+
-            '<param name="movie" value="' + swf + '" />'+
-            '<param name="allowscriptaccess" value="always" />'+
-            '</object>';
-        } else {
-          return '<object height="100%" width="100%" id="' + engineId + '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">'+
-            '<embed allowscriptaccess="always" height="100%" width="100%" src="' + swf + '" type="application/x-shockwave-flash" name="' + engineId + '" />'+
-            '</object>';
-        }
-      },
       autoPlay = false,
       apiKey = 'htuiRd1JP11Ww0X72T1C3g',
       scApiUrl = function(url) {
         return (/api\./.test(url) ? url + '?' : 'http://api.' + domain +'/resolve?url=' + url + '&') + 'format=json&consumer_key=' + apiKey +'&callback=?';
       },
-      audioEngine,
       players = [],
       updates = {},
       currentUrl,
-      checkAudioEngine = function() {
-        // init the engine if it's not ready yet
-        var url = players[0] && players[0].tracks[0] && players[0].tracks[0].permalink_url;
-        // add the flash engine if it's not yet there
-        if(url && !document.getElementById(engineId)){
-          currentUrl = url;
-          // create a container for the flash engine (IE needs that to operate properly)
-          $('<div class="sc-player-engine-container"></div>').appendTo(document.body).html(audioHtml(url));
-        }
-      },
 
       loadTracksData = function($player, links) {
         var index = 0,
@@ -141,7 +275,7 @@
               .find('.sc-loading-artwork')
                 .each(function(index) {
                   // if the image isn't loaded yet, do it now
-                  $(this).removeClass('sc-loading-artwork').html(artworkImage(track));
+                  $(this).removeClass('sc-loading-artwork').html(artworkImage(track, false));
                 });
           }else{
             // reset other artworks
@@ -163,16 +297,14 @@
       },
       play = function(track) {
         var url = track.permalink_url;
-        if(audioEngine){
-          if(currentUrl !== url){
-            currentUrl = url;
-            // log('will load', url);
-            audioEngine.api_load(url);
-            autoPlay = true;
-          }else{
-            // log('will play');
-            audioEngine.api_play();
-          }
+        if(currentUrl === url){
+          // log('will play');
+          audioEngine.play();
+        }else{
+          currentUrl = url;
+          // log('will load', url);
+          audioEngine.load(track);
+          autoPlay = true;
         }
       },
       getPlayerData = function(node) {
@@ -189,68 +321,49 @@
       },
       onPlay = function(player, id) {
         var track = getPlayerData(player).tracks[id || 0];
-        if(audioEngine){
-          updateTrackInfo(player, track);
-          updatePlayStatus(player, true);
-          play(track);
-        }
+        updateTrackInfo(player, track);
+        updatePlayStatus(player, true);
+        play(track);
       },
       onPause = function(player) {
-        if(audioEngine){
-          updatePlayStatus(player, false);
-          audioEngine.api_pause();
-        }
+        updatePlayStatus(player, false);
+        audioEngine.pause();
       },
       onSeek = function(player, relative) {
-        if(audioEngine){
-          audioEngine.api_seekTo((audioEngine.api_getTrackDuration() * relative));
-        }
+        audioEngine.seek(relative);
       },
       positionPoll;
   
     // listen to audio engine events
+    $(document)
+      .bind('scPlayer:onAudioReady', function(event) {
+        log('onPlayerReady: audio engine is ready');
+        audioEngine.play();
+      })
+      // when the loaded track started to play
+      .bind('scPlayer:onMediaPlay', function(event) {
+        var duration = audioEngine.getDuration() * 1000;
+        clearInterval(positionPoll);
+        positionPoll = setInterval(function() {
+          var position = audioEngine.getPosition();
+          updates.$played.css('width', ((position / audioEngine.getDuration()) * 100) + '%');
+          updates.position.innerHTML = timecode(position * 1000); 
+        }, 50);
+      })
+      // when the loaded track is was paused
+      .bind('scPlayer:onMediaPause', function(event) {
+        clearInterval(positionPoll);
+      })
+      .bind('scPlayer:onMediaEnd', function(event) {
+        log('track finished get the next one');
+        if(autoPlay){      
+          $('.sc-trackslist li.active').next('li').click();
+        }
+      })
+      .bind('scPlayer:onMediaBuffering', function(event) {
+        updates.$buffer.css('width', event.percent + '%');
+      });
     
-    // when the loaded track is ready to play
-    soundcloud.addEventListener('onPlayerReady', function(flashId, data) {
-      log('onPlayerReady: audio engine is ready', data);
-      // init the audio engine if not been done yet
-      if(!audioEngine){
-        audioEngine = soundcloud.getPlayer(engineId);
-      }
-      // FIXME in the widget the event doesnt get fired after the load()
-      if(autoPlay){      
-        this.api_play();
-      }
-    });
-    
-    // when the loaded track finished playing
-    soundcloud.addEventListener('onMediaEnd', function(flashId, data) {
-      log('track finished get the next one');
-      if(autoPlay){      
-        $('.sc-trackslist li.active').next('li').click();
-      }
-    });
-    
-    // when the loaded track is still buffering
-    soundcloud.addEventListener('onMediaBuffering', function(flashId, data) {
-      updates.$buffer.css('width', data.percent + '%');
-    });
-    
-    // when the loaded track started to play
-    soundcloud.addEventListener('onMediaPlay', function(flashId, data) {
-      var duration = audioEngine.api_getTrackDuration() * 1000;
-      clearInterval(positionPoll);
-      positionPoll = setInterval(function() {
-        var position = audioEngine.api_getTrackPosition() * 1000;
-        updates.$played.css('width', ((position / duration) * 100) + '%');
-        updates.position.innerHTML = timecode(position); 
-      }, 50);
-    });
-    
-    // when the loaded track is was paused
-    soundcloud.addEventListener('onMediaPause', function(flashId, data) {
-      clearInterval(positionPoll);
-    });
 
   // Generate custom skinnable HTML/CSS/JavaScript based SoundCloud players from links to SoundCloud resources
   $.scPlayer = function(options, node) {
@@ -314,8 +427,6 @@
           $('.sc-position', $player)[0].innerHTML = timecode(0);
           // set up the first track info
           updateTrackInfo($player, tracks[0]);
-          // check if audio engine is inited properly
-          checkAudioEngine();
         });
 
 
@@ -354,13 +465,9 @@
   
   // toggling play/pause
   $('a.sc-play, a.sc-pause').live('click', function(event) {
-    var $player = $(this).closest('.sc-player'),
-        play = (/play/).test(this.className);
-    if (play) {
-      onPlay($player);
-    }else{
-      onPause($player);
-    }
+    var $list = $(this).closest('.sc-player').find('ol.sc-trackslist');
+    // simulate the click in the tracklist
+    $list.find('li.active').click();
     return false;
   });
   
@@ -391,16 +498,36 @@
     return false;
   });
   
-  // seeking in the loaded track buffer
-  $('.sc-time-span').live('click', function(event) {
-    var $scrubber = $(this),
+  var scrub = function(node, xPos) {
+    var $scrubber = $(node).closest('.sc-time-span'),
         $buffer = $scrubber.find('.sc-buffer'),
         $available = $scrubber.find('.sc-waveform-container img'),
         $player = $scrubber.closest('.sc-player'),
-        relative  = Math.min($buffer.width(), (event.pageX  - $available.offset().left)) / $available.width();
+        relative = Math.min($buffer.width(), (xPos  - $available.offset().left)) / $available.width();
     onSeek($player, relative);
-    return false;
-  });
+  };
+  
+  var onTouchMove = function(ev) {
+    if (ev.targetTouches.length === 1) {
+      scrub(ev.target, ev.targetTouches && ev.targetTouches.length && ev.targetTouches[0].clientX);
+      ev.preventDefault();
+    }
+  };
+  
+  // seeking in the loaded track buffer
+  $('.sc-time-span')
+    .live('click', function(event) {
+      scrub(this, event.pageX);
+      return false;
+    })
+    .live('touchstart', function(event) {
+      this.addEventListener('touchmove', onTouchMove, false);
+      event.originalEvent.preventDefault();
+    })
+    .live('touchend', function(event) {
+      this.removeEventListener('touchmove', onTouchMove, false);
+      event.originalEvent.preventDefault();
+    });
   
   
   // -------------------------------------------------------------------
