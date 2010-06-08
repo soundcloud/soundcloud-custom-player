@@ -1,3 +1,7 @@
+.wrapper{
+  width: 800px;
+  margin: 0 auto;
+}
 .sc-player{
   width: 800px;
   height: 250px;

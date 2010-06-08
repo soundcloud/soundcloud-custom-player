@@ -1,7 +1,7 @@
 body {
   font-family: 'arial', helvetica, sans serif;
-  width: 800px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   background: red;
   color: #fff;
 }
@@ -22,10 +22,11 @@ h2 {
 }
 
 .footer {
+  background:#fff;
   border-top: 1px dashed #fff;
   padding: 10px 0;
   text-align: right;
-  -webkit-transform: rotate(-9deg);
-  -moz-transform: rotate(-9deg);
-  transform: rotate(-9deg);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }

@@ -39,6 +39,7 @@
           state = a.canPlayType && (/maybe|probably/).test(a.canPlayType('audio/mpeg'));
           // let's enable the html5 audio on selected mobile devices first, unlikely to support Flash
           // the desktop browsers are still better with Flash, e.g. see the Safari 10.6 bug
+          // comment the following line out, if you want to force the html5 mode
           state = state &&  (/iPad|iphone|mobile|pre\//i).test(navigator.userAgent);
         }catch(e){
           // there's no audio support here sadly
@@ -120,6 +121,7 @@
     
     var flashDriver = function() {
       var engineId = 'scPlayerEngine',
+          player,
           flashHtml = function(url) {
             var swf = 'http://player.soundcloud.com/player.swf?url=' + url +'&amp;enable_api=true&amp;player_type=engine&amp;object_id=' + engineId;
             if ($.browser.msie) {
@@ -135,7 +137,7 @@
           };
 
       
-      var player;
+      
       // listen to audio engine events
       // when the loaded track is ready to play
       soundcloud.addEventListener('onPlayerReady', function(flashId, data) {
@@ -174,13 +176,13 @@
           player && player.api_pause();
         },
         seek: function(relative){
-          player && player.api_seekTo((player.api_getDuration() * relative));
+          player && player.api_seekTo((player.api_getTrackDuration() * relative));
         },
         getDuration: function() {
-          return player && player.api_getDuration();
+          return player && player.api_getTrackDuration && player.api_getTrackDuration();
         },
         getPosition: function() {
-          return player && player.api_getPosition();
+          return player && player.api_getTrackPosition && player.api_getTrackPosition();
         }
       };
     };
@@ -342,9 +344,9 @@
       })
       // when the loaded track started to play
       .bind('scPlayer:onMediaPlay', function(event) {
-        var duration = audioEngine.getDuration() * 1000;
         clearInterval(positionPoll);
         positionPoll = setInterval(function() {
+          var duration = audioEngine.getDuration() * 1000;
           var position = audioEngine.getPosition();
           updates.$played.css('width', ((position / audioEngine.getDuration()) * 100) + '%');
           updates.position.innerHTML = timecode(position * 1000); 

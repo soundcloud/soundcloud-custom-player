@@ -126,3 +126,16 @@
   padding: 2px 4px;
   font-weight: bold;
 }
+
+/* remote control */
+
+a.sc-remote-link {
+  background: url('img/play.png') top left no-repeat;
+  padding-left: 20px;
+  text-decoration: none;
+}
+
+a.sc-remote-link.playing{
+  background-image: url('img/pause.png');
+}
+

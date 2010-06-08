@@ -10,7 +10,7 @@
   </head>
   
   <body>
-   
+   <div class="wrapper">
     <h1>Showcasing Music</h1>
       
       <div class="post">
@@ -35,13 +35,46 @@
         
       </div>
       
-      <div class="footer">
-      2010
-      </div>
+    </div>
     
+    <!-- remote control button -->
+    <div class="footer">
+      <a href="#" class="sc-remote-link">Toggle player</a>
+      2010
+    </div>
+
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
     <script type="text/javascript" src="../js/soundcloud.player.api.js"></script>
     <script type="text/javascript" src="../js/sc-player.js"></script>
+    <!-- add a customizable remote control button -->
+    <script type="text/javascript">
+      
+      $(function() {
+        // sc-player remote control simulates the click on the play/pause button
+        $('a.sc-remote-link').live('click', function(event) {
+          var $link = $(this),
+              $pause = $('.playing a.sc-pause');
+              
+          if ($pause.length) {
+            $pause.click();
+          }else{
+            $('a.sc-play:first').click();
+          }
+          return false;
+        });
+        
+        // update the remote buttons class, when changing player state
+        var toggleLink = function(event) {
+          $('a.sc-remote-link').toggleClass('playing', event.type === 'scPlayer:onMediaPlay');
+        };
+        $(document)
+          .bind('scPlayer:onMediaPlay', toggleLink)
+          .bind('scPlayer:onMediaEnd', toggleLink)
+          .bind('scPlayer:onMediaPause', toggleLink);
+      });
+  
+    </script>
+
   
   </body>
 
