@@ -31,6 +31,20 @@
     return tc.join('.');
   };
   
+  var debug = true,
+      useSandBox = false,
+      log = function(args) {
+        if(debug && window.console && window.console.log){
+          window.console.log.apply(window.console, arguments);
+        }
+      },
+      domain = useSandBox ? 'sandbox-soundcloud.com' : 'soundcloud.com',
+      apiKey = 'htuiRd1JP11Ww0X72T1C3g',
+      scApiUrl = function(url) {
+        return (/api\./.test(url) ? url + '?' : 'http://api.' + domain +'/resolve?url=' + url + '&') + 'format=json&consumer_key=' + apiKey +'&callback=?';
+      };
+
+  
   var audioEngine = function() {
     var html5AudioAvailable = function() {
         var state = false;
@@ -123,7 +137,7 @@
       var engineId = 'scPlayerEngine',
           player,
           flashHtml = function(url) {
-            var swf = 'http://player.soundcloud.com/player.swf?url=' + url +'&amp;enable_api=true&amp;player_type=engine&amp;object_id=' + engineId;
+            var swf = 'http://player.' + domain +'/player.swf?url=' + url +'&amp;enable_api=true&amp;player_type=engine&amp;object_id=' + engineId;
             if ($.browser.msie) {
               return '<object height="100%" width="100%" id="' + engineId + '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" data="' + swf + '">'+
                 '<param name="movie" value="' + swf + '" />'+
@@ -193,148 +207,138 @@
   
   
   
-      var debug = true,
-      useSandBox = false,
-      log = function(args) {
-        if(debug && window.console && window.console.log){
-          window.console.log.apply(window.console, arguments);
-        }
-      },
-      domain = useSandBox ? 'sandbox-soundcloud.com' : 'soundcloud.com',
-      autoPlay = false,
-      apiKey = 'htuiRd1JP11Ww0X72T1C3g',
-      scApiUrl = function(url) {
-        return (/api\./.test(url) ? url + '?' : 'http://api.' + domain +'/resolve?url=' + url + '&') + 'format=json&consumer_key=' + apiKey +'&callback=?';
-      },
-      players = [],
-      updates = {},
-      currentUrl,
+      var autoPlay = false,
+          players = [],
+          updates = {},
+          currentUrl,
 
-      loadTracksData = function($player, links) {
-        var index = 0,
-            playerObj = {node: $player, tracks: []},
-            loadUrl = function(link) {
-              $.getJSON(scApiUrl(link.url), function(data) {
-                // log('data loaded', link.url, data);
-                index += 1;
-                if(data.tracks){
-                  log('data.tracks', data.tracks);
-                  playerObj.tracks = playerObj.tracks.concat(data.tracks);
-                }else if(data.duration){
-                  // if track, add to player
-                  playerObj.tracks.push(data);
-                }else if(data.username){
-                  // if user, get his tracks or favorites
-                  if(/favorites/.test(link.url)){
-                    links.push({url:data.uri + '/favorites'});
-                  }else{
-                    links.push({url:data.uri + '/tracks'});
-                  }
-                }else if($.isArray(data)){
-                  playerObj.tracks = playerObj.tracks.concat(data);
-                }
-                if(links[index]){                    
-                  // if there are more track to load, get them from the api
-                  loadUrl(links[index]);
-                }else{
-                  // if loading finishes, anounce it to the GUI
-                  playerObj.node.trigger({type:'onTrackDataLoaded.scPlayer', playerObj: playerObj});
-                }
-             });
-           };
-        // update the players queue
-        players.push(playerObj);
+          loadTracksData = function($player, links) {
+            var index = 0,
+                playerObj = {node: $player, tracks: []},
+                loadUrl = function(link) {
+                  $.getJSON(scApiUrl(link.url), function(data) {
+                    // log('data loaded', link.url, data);
+                    index += 1;
+                    if(data.tracks){
+                      // log('data.tracks', data.tracks);
+                      playerObj.tracks = playerObj.tracks.concat(data.tracks);
+                    }else if(data.duration){
+                      // a secret link fix, till the SC API returns permalink with secret on secret response
+                      data.permalink_url = link.url;
+                      // if track, add to player
+                      playerObj.tracks.push(data);
+                    }else if(data.username){
+                      // if user, get his tracks or favorites
+                      if(/favorites/.test(link.url)){
+                        links.push({url:data.uri + '/favorites'});
+                      }else{
+                        links.push({url:data.uri + '/tracks'});
+                      }
+                    }else if($.isArray(data)){
+                      playerObj.tracks = playerObj.tracks.concat(data);
+                    }
+                    if(links[index]){                    
+                      // if there are more track to load, get them from the api
+                      loadUrl(links[index]);
+                    }else{
+                      // if loading finishes, anounce it to the GUI
+                      playerObj.node.trigger({type:'onTrackDataLoaded.scPlayer', playerObj: playerObj});
+                    }
+                 });
+               };
+            // update the players queue
+            players.push(playerObj);
         
-        // load first tracks
-        loadUrl(links[index]);
-      },
-      artworkImage = function(track, usePlaceholder) {
-        if(usePlaceholder){
-          return '<div class="sc-loading-artwork">Loading Artwork</div>';
-        }else if (track.artwork_url) {
-          return '<img src="' + track.artwork_url.replace('-large', '-t300x300') + '"/>';
-        }else{
-          return '<div class="sc-no-artwork">No Artwork</div>';
-        }
-      },
-      updateTrackInfo = function($player, track) {
-        // update the current track info in the player
-        // log('updateTrackInfo', track);
-        $('.sc-info', $player).each(function(index) {
-          $('h3', this).html('<a href="' + track.permalink_url +'">' + track.title + '</a>');
-          $('h4', this).html('by <a href="' + track.user.permalink_url +'">' + track.user.username + '</a>');
-          $('p', this).html(track.description || 'no Description');
-        });
-        // update the artwork
-        $('.sc-artwork-list li', $player).each(function(index) {
-          var $item = $(this),
-              itemTrack = $item.data('sc-track');
+            // load first tracks
+            loadUrl(links[index]);
+          },
+          artworkImage = function(track, usePlaceholder) {
+            if(usePlaceholder){
+              return '<div class="sc-loading-artwork">Loading Artwork</div>';
+            }else if (track.artwork_url) {
+              return '<img src="' + track.artwork_url.replace('-large', '-t300x300') + '"/>';
+            }else{
+              return '<div class="sc-no-artwork">No Artwork</div>';
+            }
+          },
+          updateTrackInfo = function($player, track) {
+            // update the current track info in the player
+            // log('updateTrackInfo', track);
+            $('.sc-info', $player).each(function(index) {
+              $('h3', this).html('<a href="' + track.permalink_url +'">' + track.title + '</a>');
+              $('h4', this).html('by <a href="' + track.user.permalink_url +'">' + track.user.username + '</a>');
+              $('p', this).html(track.description || 'no Description');
+            });
+            // update the artwork
+            $('.sc-artwork-list li', $player).each(function(index) {
+              var $item = $(this),
+                  itemTrack = $item.data('sc-track');
           
-          if (itemTrack === track) {
-            // show track artwork
-            $item
-              .addClass('active')
-              .find('.sc-loading-artwork')
-                .each(function(index) {
-                  // if the image isn't loaded yet, do it now
-                  $(this).removeClass('sc-loading-artwork').html(artworkImage(track, false));
-                });
-          }else{
-            // reset other artworks
-            $item.removeClass('active');
-          }
-        });
-        // cache the references to most updated DOM nodes in the progress bar
-        updates = {
-          $buffer: $('.sc-buffer', $player), 
-          $played: $('.sc-played', $player), 
-          position:  $('.sc-position', $player)[0]
-        };
-        // update the track duration in the progress bar
-        $('.sc-duration', $player).html(timecode(track.duration));
-        // put the waveform into the progress bar
-        $('.sc-waveform-container', $player).html('<img src="' + track.waveform_url +'" />');
+              if (itemTrack === track) {
+                // show track artwork
+                $item
+                  .addClass('active')
+                  .find('.sc-loading-artwork')
+                    .each(function(index) {
+                      // if the image isn't loaded yet, do it now
+                      $(this).removeClass('sc-loading-artwork').html(artworkImage(track, false));
+                    });
+              }else{
+                // reset other artworks
+                $item.removeClass('active');
+              }
+            });
+            // cache the references to most updated DOM nodes in the progress bar
+            updates = {
+              $buffer: $('.sc-buffer', $player), 
+              $played: $('.sc-played', $player), 
+              position:  $('.sc-position', $player)[0]
+            };
+            // update the track duration in the progress bar
+            $('.sc-duration', $player).html(timecode(track.duration));
+            // put the waveform into the progress bar
+            $('.sc-waveform-container', $player).html('<img src="' + track.waveform_url +'" />');
         
-        $player.trigger('onPlayerTrackSwitch.scPlayer', [track]);
-      },
-      play = function(track) {
-        var url = track.permalink_url;
-        if(currentUrl === url){
-          // log('will play');
-          audioEngine.play();
-        }else{
-          currentUrl = url;
-          // log('will load', url);
-          audioEngine.load(track);
-          autoPlay = true;
-        }
-      },
-      getPlayerData = function(node) {
-        return players[$(node).data('sc-player').id];
-      },
-      updatePlayStatus = function(player, status) {
-        if(status){
-          // reset all other players playing status
-          $('div.sc-player.playing').removeClass('playing');
-        }
-        $(player)
-          .toggleClass('playing', status)
-          .trigger((status ? 'onPlayerPlay' : 'onPlayerPause') + '.scPlayer');
-      },
-      onPlay = function(player, id) {
-        var track = getPlayerData(player).tracks[id || 0];
-        updateTrackInfo(player, track);
-        updatePlayStatus(player, true);
-        play(track);
-      },
-      onPause = function(player) {
-        updatePlayStatus(player, false);
-        audioEngine.pause();
-      },
-      onSeek = function(player, relative) {
-        audioEngine.seek(relative);
-      },
-      positionPoll;
+            $player.trigger('onPlayerTrackSwitch.scPlayer', [track]);
+          },
+          play = function(track) {
+            var url = track.permalink_url;
+            if(currentUrl === url){
+              // log('will play');
+              audioEngine.play();
+            }else{
+              currentUrl = url;
+              // log('will load', url);
+              audioEngine.load(track);
+              autoPlay = true;
+            }
+          },
+          getPlayerData = function(node) {
+            return players[$(node).data('sc-player').id];
+          },
+          updatePlayStatus = function(player, status) {
+            if(status){
+              // reset all other players playing status
+              $('div.sc-player.playing').removeClass('playing');
+            }
+            $(player)
+              .toggleClass('playing', status)
+              .trigger((status ? 'onPlayerPlay' : 'onPlayerPause') + '.scPlayer');
+          },
+          onPlay = function(player, id) {
+            var track = getPlayerData(player).tracks[id || 0];
+            updateTrackInfo(player, track);
+            updatePlayStatus(player, true);
+            play(track);
+          },
+          onPause = function(player) {
+            updatePlayStatus(player, false);
+            audioEngine.pause();
+          },
+          onSeek = function(player, relative) {
+            audioEngine.seek(relative);
+          },
+          positionPoll;
   
     // listen to audio engine events
     $(document)
@@ -401,10 +405,6 @@
           var tracks = event.playerObj.tracks;
           $.each(tracks, function(index, track) {
             var active = index === 0;
-            // TODO this can be removed when api cookie auth is fixed
-            if(track.sharing === "private"){
-              return;
-            }
             // create an item in the playlist
             $('<li><a href="' + track.permalink_url +'">' + track.title + '</a><span class="sc-track-duration">' + timecode(track.duration) + '</span></li>').data('sc-track', {id:index}).toggleClass('active', active).appendTo($list);
             // create an item in the artwork list
