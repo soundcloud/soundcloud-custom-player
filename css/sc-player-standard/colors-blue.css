@@ -284,3 +284,16 @@
   padding: 2px 4px;
   font-weight: bold;
 }
+
+.sc-volume-slider {
+  background-color: #e5e5e5;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+}
+
+
+.sc-volume-slider .sc-volume-status{
+  background-color: #666;
+  border-right: 1px solid #003399;
+}
+

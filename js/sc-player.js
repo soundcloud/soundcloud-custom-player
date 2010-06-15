@@ -126,6 +126,11 @@
         },
         getPosition: function() {
           return player.currentTime;
+        },
+        setVolume: function(val) {
+          if(a){
+            a.volume = val / 100;
+          }
         }
       };
 
@@ -197,7 +202,13 @@
         },
         getPosition: function() {
           return player && player.api_getTrackPosition && player.api_getTrackPosition();
+        },
+        setVolume: function(val) {
+          if(player && player.api_setVolume){
+            player.api_setVolume(val);
+          }
         }
+
       };
     };
     
@@ -338,6 +349,28 @@
           onSeek = function(player, relative) {
             audioEngine.seek(relative);
           },
+          soundVolume = function() {
+            var vol = 80,
+                cooks = document.cookie.split(';'),
+                volRx = new RegExp('scPlayer_volume=(\\d+)');
+            for(var i in cooks){
+              if(volRx.test(cooks[i])){
+                vol = parseInt(cooks[i].match(volRx)[1], 10);
+                break;
+              }
+            }
+            return vol;
+          }(),
+          onVolume = function(volume) {
+            var vol = Math.floor(volume);
+            // save the volume in the cookie
+            var date = new Date();
+            date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
+            soundVolume = vol;
+            document.cookie = ['scPlayer_volume=', vol, '; expires=', date.toUTCString(), '; path="/"'].join('');
+            // update the volume in the engine
+            audioEngine.setVolume(soundVolume);
+          },
           positionPoll;
   
     // listen to audio engine events
@@ -345,6 +378,8 @@
       .bind('scPlayer:onAudioReady', function(event) {
         log('onPlayerReady: audio engine is ready');
         audioEngine.play();
+        // set initial volume
+        onVolume(soundVolume);
       })
       // when the loaded track started to play
       .bind('scPlayer:onMediaPlay', function(event) {
@@ -359,6 +394,10 @@
       // when the loaded track is was paused
       .bind('scPlayer:onMediaPause', function(event) {
         clearInterval(positionPoll);
+      })
+      // change the volume
+      .bind('scPlayer:onVolumeChange', function(event) {
+        onVolume(event.volume);
       })
       .bind('scPlayer:onMediaEnd', function(event) {
         log('track finished get the next one');
@@ -394,6 +433,7 @@
           .append('<a href="#info" class="sc-info-toggle">Info</a>')
           .append('<div class="sc-scrubber"></div>')
             .find('.sc-scrubber')
+              .append('<div class="sc-volume-slider"><span class="sc-volume-status" style="width:' + soundVolume +'%"></span></div>')
               .append('<div class="sc-time-span"><div class="sc-waveform-container"></div><div class="sc-buffer"></div><div class="sc-played"></div></div>')
               .append('<div class="sc-time-indicators"><span class="sc-position"></span> | <span class="sc-duration"></span></div>');
         
@@ -516,6 +556,7 @@
     }
   };
   
+  
   // seeking in the loaded track buffer
   $('.sc-time-span')
     .live('click', function(event) {
@@ -531,7 +572,36 @@
       event.originalEvent.preventDefault();
     });
   
+  var startVolumeTracking = function(node, startEvent) {
+    var $node = $(node),
+        originX = $node.offset().left,
+        originWidth = $node.width(),
+        getVolume = function() {
+          return ((event.pageX - originX)/originWidth)*100;
+        },
+        update = function(event) {
+          $(document).trigger({type: 'scPlayer:onVolumeChange', volume: getVolume(event.pageX)});
+        };
+    $node.bind('mousemove', update);
+    update(startEvent);
+  };
   
+  var stopVolumeTracking = function(node, event) {
+    $(node).unbind('mousemove');
+  };
+  
+  // changing volume in the player
+  $('.sc-volume-slider')
+    .live('mousedown', function(event) {
+      startVolumeTracking(this, event);
+    })
+    .live('mouseup', function(event) {
+      stopVolumeTracking(this, event);
+    });
+  
+  $(document).bind('scPlayer:onVolumeChange', function(event) {
+    $('span.sc-volume-status').css({width: event.volume + '%'});
+  });
   // -------------------------------------------------------------------
   // the default Auto-Initialization
   $(function() {

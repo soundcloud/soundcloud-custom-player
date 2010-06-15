@@ -34,6 +34,18 @@
   background-color: #666;
 }
 
+.sc-volume-slider {
+  background-color: #e5e5e5;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+}
+
+
+.sc-volume-slider .sc-volume-status{
+  background-color: #666;
+  border-right: 1px solid #22B573;
+}
+
 
 .sc-scrubber .sc-waveform-container {
   z-index: 800;
@@ -119,12 +131,7 @@
   color: #fff;
 }
 
-.sc-track-duration {
-  text-align: right;
-  float: right;
-  padding: 0 5px;
-  margin-left: 5px;
-}
+
 
 /* Track info*/
 
