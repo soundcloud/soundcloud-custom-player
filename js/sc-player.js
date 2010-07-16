@@ -480,6 +480,11 @@
     return $player;
   };
   
+  // stop all players, might be useful, before replacing the player dynamically
+  $.scPlayer.stopAll = function() {
+    $('.sc-player.playing a.sc-pause').click();
+  };
+  
   // plugin wrapper
   $.fn.scPlayer = function(options) {
     return this.each(function() {
