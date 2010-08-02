@@ -577,25 +577,25 @@
       event.originalEvent.preventDefault();
     });
   
+  // changing volume in the player
   var startVolumeTracking = function(node, startEvent) {
     var $node = $(node),
         originX = $node.offset().left,
         originWidth = $node.width(),
-        getVolume = function() {
-          return ((event.pageX - originX)/originWidth)*100;
+        getVolume = function(x) {
+          return Math.floor(((x - originX)/originWidth)*100);
         },
         update = function(event) {
           $(document).trigger({type: 'scPlayer:onVolumeChange', volume: getVolume(event.pageX)});
         };
-    $node.bind('mousemove', update);
+    $node.bind('mousemove.sc-player', update);
     update(startEvent);
   };
   
   var stopVolumeTracking = function(node, event) {
-    $(node).unbind('mousemove');
+    $(node).unbind('mousemove.sc-player');
   };
   
-  // changing volume in the player
   $('.sc-volume-slider')
     .live('mousedown', function(event) {
       startVolumeTracking(this, event);
@@ -608,6 +608,7 @@
     $('span.sc-volume-status').css({width: event.volume + '%'});
   });
   // -------------------------------------------------------------------
+
   // the default Auto-Initialization
   $(function() {
     if($.isFunction($.fn.scPlayer.defaults.onDomReady)){
