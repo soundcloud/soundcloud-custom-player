@@ -48,6 +48,10 @@
   height: 40px;
 }
 
+.sc-player .sc-controls a.sc-play, .sc-player .sc-controls a.sc-pause{
+  text-indent: -3000px;
+}
+
 .sc-player .sc-controls a.sc-pause{
   display: none;
 }
