@@ -53,7 +53,7 @@
           // let's enable the html5 audio on selected mobile devices first, unlikely to support Flash
           // the desktop browsers are still better with Flash, e.g. see the Safari 10.6 bug
           // comment the following line out, if you want to force the html5 mode
-          state = state &&  (/iPad|iphone|mobile|pre\//i).test(navigator.userAgent);
+          state = state && (/iPad|iphone|mobile|pre\//i).test(navigator.userAgent);
         }catch(e){
           // there's no audio support here sadly
         }
@@ -104,9 +104,9 @@
 
       
       return {
-        load: function(track) {
+        load: function(track, apiKey) {
           player.pause();
-          player.src = track.stream_url;
+          player.src = track.stream_url + '?consumer_key=' + apiKey;
           player.load();
           player.play();
         },
@@ -148,7 +148,7 @@
                 '<param name="allowscriptaccess" value="always" />'+
                 '</object>';
             } else {
-              return '<object height="100%" width="100%" id="' + engineId + '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">'+
+              return '<object height="100%" width="100%" id="' + engineId + '">'+
                 '<embed allowscriptaccess="always" height="100%" width="100%" src="' + swf + '" type="application/x-shockwave-flash" name="' + engineId + '" />'+
                 '</object>';
             }
@@ -218,11 +218,12 @@
   
   
   var autoPlay = false,
+      apiKey,
       players = [],
       updates = {},
       currentUrl,
 
-      loadTracksData = function($player, links, apiKey) {
+      loadTracksData = function($player, links, key) {
         var index = 0,
             playerObj = {node: $player, tracks: []},
             loadUrl = function(link) {
@@ -256,9 +257,10 @@
                 }
              });
            };
+        // update current API key
+        apiKey = key;
         // update the players queue
         players.push(playerObj);
-    
         // load first tracks
         loadUrl(links[index]);
       },
@@ -319,7 +321,7 @@
         }else{
           currentUrl = url;
           // log('will load', url);
-          audioEngine.load(track);
+          audioEngine.load(track, apiKey);
           autoPlay = true;
         }
       },
