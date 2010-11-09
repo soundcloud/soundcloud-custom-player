@@ -7,6 +7,14 @@
   
 }
 
+.sc-player.special {
+  border: 2px solid #ff3300;
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
+  border-radius: 15px;
+  padding: 5px;
+}
+
 .sc-player a {
   text-decoration: none;
   color: #333;

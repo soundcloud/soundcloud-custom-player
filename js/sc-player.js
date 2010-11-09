@@ -416,12 +416,19 @@
     var opts = $.extend({}, $.scPlayer.defaults, options),
         playerId = players.length,
         $source = node && $(node),
+        sourceClasses = $source[0].className.replace('sc-player', ''),
         links = opts.links || $.map($('a', $source).add($source.filter('a')), function(val) { return {url: val.href, title: val.innerHTML}; }),
         $player = $('<div class="sc-player loading"></div>').data('sc-player', {id: playerId}),
         $artworks = $('<ol class="sc-artwork-list"></ol>').appendTo($player),
         $info = $('<div class="sc-info"><h3></h3><h4></h4><p></p><a href="#" class="sc-info-close">X</a></div>').appendTo($player),
         $controls = $('<div class="sc-controls"></div>').appendTo($player),
         $list = $('<ol class="sc-trackslist"></ol>').appendTo($player);
+        
+        // add the classes of the source node to the player itself
+        // the players can be indvidually styled this way
+        if(sourceClasses || opts.customClass){
+          $player.addClass(sourceClasses).addClass(opts.customClass);
+        }
         
         // enable autoplay if set in the options
         autoPlay = opts.autoPlay;
@@ -495,6 +502,7 @@
 
   // default plugin options
   $.scPlayer.defaults = $.fn.scPlayer.defaults = {
+    customClass: null,
     // do something with the dom object before you render it, add nodes, get more data from the services etc.
     beforeRender  :   function(tracksData) {
       var $player = $(this);
