@@ -30,9 +30,9 @@
 
     return tc.join('.');
   };
-
+  // shuffle the array
   var shuffle = function(arr) {
-    arr.sort(function() { return 0.5 - Math.random(); } );
+    arr.sort(function() { return Math.round(Math.random()); } );
     return arr;
   };
 
