@@ -1,21 +1,21 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
-  
+
   <head>
-    
+
     <title>SC player example: Red Skin</title>
     <link rel="stylesheet" href="../css/sc-player-red.css" type="text/css">
-  
+
   </head>
-  
+
   <body>
    <div class="wrapper">
     <h1>Showcasing Music</h1>
-      
+
       <div class="post">
         <h2>My Favorites</h2>
-        
+
         <div class="sc-player">
           <a href="http://soundcloud.com/matas/hobnotropic">My dub track</a>
           <a href="http://soundcloud.com/forss/forss-vs-borg-deadline-live-in-milan-2004">Forss</a>
@@ -26,17 +26,17 @@
           <a href="http://soundcloud.com/matas/goldfrapp-little-bird-matas-ornitologic-remix">Pumpkins Track</a>
           <a href="http://soundcloud.com/matas/on-the-bridge">Oxxo</a>
         </div>
-        
-        
+
+
         <h2>My Tracks</h2>
-      
+
         <a href="http://soundcloud.com/matas/tracks" class="sc-player">Matas Favorites</a>
 
-        
+
       </div>
-      
+
     </div>
-    
+
     <!-- remote control button -->
     <div class="footer">
       <a href="#" class="sc-remote-link">Toggle player</a>
@@ -46,15 +46,26 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
     <script type="text/javascript" src="../js/soundcloud.player.api.js"></script>
     <script type="text/javascript" src="../js/sc-player.js"></script>
+
+    <!-- Custom player initializion, in case you want to pass additional options  -->
+    <script type="text/javascript">
+      $.scPlayer.defaults.onDomReady = function() {
+        $('a.sc-player, div.sc-player').scPlayer({
+          // randomize tracks in a playlist
+          randomize: true
+        });
+      };
+    </script>
+
     <!-- add a customizable remote control button -->
     <script type="text/javascript">
-      
+
       $(function() {
         // sc-player remote control simulates the click on the play/pause button
         $('a.sc-remote-link').live('click', function(event) {
           var $link = $(this),
               $pause = $('.playing a.sc-pause');
-              
+
           if ($pause.length) {
             $pause.click();
           }else{
@@ -62,7 +73,7 @@
           }
           return false;
         });
-        
+
         // update the remote buttons class, when changing player state
         var toggleLink = function(event) {
           $('a.sc-remote-link').toggleClass('playing', event.type === 'scPlayer:onMediaPlay');
@@ -72,10 +83,10 @@
           .bind('scPlayer:onMediaEnd', toggleLink)
           .bind('scPlayer:onMediaPause', toggleLink);
       });
-  
+
     </script>
 
-  
+
   </body>
 
  </html>
