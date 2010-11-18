@@ -400,7 +400,7 @@
           updates.position.innerHTML = timecode(position);
           // announce the track position to the DOM
           $doc.trigger({
-            type: 'scPlayer:onMediaTimeUpdate',
+            type: 'onMediaTimeUpdate.scPlayer',
             duration: duration,
             position: position,
             relative: relative
