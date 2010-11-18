@@ -38,6 +38,7 @@
 
   var debug = true,
       useSandBox = false,
+      $doc = $(document),
       log = function(args) {
         if(debug && window.console && window.console.log){
           window.console.log.apply(window.console, arguments);
@@ -66,19 +67,19 @@
     }(),
     callbacks = {
       onReady: function() {
-        $(document).trigger('scPlayer:onAudioReady');
+        $doc.trigger('scPlayer:onAudioReady');
       },
       onPlay: function() {
-        $(document).trigger('scPlayer:onMediaPlay');
+        $doc.trigger('scPlayer:onMediaPlay');
       },
       onPause: function() {
-        $(document).trigger('scPlayer:onMediaPause');
+        $doc.trigger('scPlayer:onMediaPause');
       },
       onEnd: function() {
-        $(document).trigger('scPlayer:onMediaEnd');
+        $doc.trigger('scPlayer:onMediaEnd');
       },
       onBuffer: function(percent) {
-        $(document).trigger({type: 'scPlayer:onMediaBuffering', percent: percent});
+        $doc.trigger({type: 'scPlayer:onMediaBuffering', percent: percent});
       }
     };
 
@@ -202,10 +203,10 @@
           player && player.api_seekTo((player.api_getTrackDuration() * relative));
         },
         getDuration: function() {
-          return player && player.api_getTrackDuration && player.api_getTrackDuration();
+          return player && player.api_getTrackDuration && player.api_getTrackDuration() * 1000;
         },
         getPosition: function() {
-          return player && player.api_getTrackPosition && player.api_getTrackPosition();
+          return player && player.api_getTrackPosition && player.api_getTrackPosition() * 1000;
         },
         setVolume: function(val) {
           if(player && player.api_setVolume){
@@ -227,7 +228,6 @@
       players = [],
       updates = {},
       currentUrl,
-
       loadTracksData = function($player, links, key) {
         var index = 0,
             playerObj = {node: $player, tracks: []},
@@ -380,7 +380,7 @@
       positionPoll;
 
     // listen to audio engine events
-    $(document)
+    $doc
       .bind('scPlayer:onAudioReady', function(event) {
         log('onPlayerReady: audio engine is ready');
         audioEngine.play();
@@ -391,15 +391,26 @@
       .bind('scPlayer:onMediaPlay', function(event) {
         clearInterval(positionPoll);
         positionPoll = setInterval(function() {
-          var duration = audioEngine.getDuration() * 1000;
-          var position = audioEngine.getPosition();
-          updates.$played.css('width', ((position / audioEngine.getDuration()) * 100) + '%');
-          updates.position.innerHTML = timecode(position * 1000);
-        }, 50);
+          var duration = audioEngine.getDuration(),
+              position = audioEngine.getPosition(),
+              relative = (position / duration);
+          // update the scrubber width
+          updates.$played.css('width', (relative * 100) + '%');
+          // show the position in the track position counter
+          updates.position.innerHTML = timecode(position);
+          // announce the track position to the DOM
+          $doc.trigger({
+            type: 'scPlayer:onMediaTimeUpdate',
+            duration: duration,
+            position: position,
+            relative: relative
+          });
+        }, 500);
       })
       // when the loaded track is was paused
       .bind('scPlayer:onMediaPause', function(event) {
         clearInterval(positionPoll);
+        positionPoll = null;
       })
       // change the volume
       .bind('scPlayer:onVolumeChange', function(event) {
@@ -608,7 +619,7 @@
           return Math.floor(((x - originX)/originWidth)*100);
         },
         update = function(event) {
-          $(document).trigger({type: 'scPlayer:onVolumeChange', volume: getVolume(event.pageX)});
+          $doc.trigger({type: 'scPlayer:onVolumeChange', volume: getVolume(event.pageX)});
         };
     $node.bind('mousemove.sc-player', update);
     update(startEvent);
@@ -626,7 +637,7 @@
       stopVolumeTracking(this, event);
     });
 
-  $(document).bind('scPlayer:onVolumeChange', function(event) {
+  $doc.bind('scPlayer:onVolumeChange', function(event) {
     $('span.sc-volume-status').css({width: event.volume + '%'});
   });
   // -------------------------------------------------------------------
