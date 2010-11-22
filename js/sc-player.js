@@ -122,6 +122,10 @@
         pause: function() {
           player.pause();
         },
+        stop: function(){
+          player.currentTime = 0;
+          player.pause();
+        },
         seek: function(relative){
           player.currentTime = player.duration * relative;
           player.play();
@@ -198,6 +202,9 @@
         },
         pause: function() {
           player && player.api_pause();
+        },
+        stop: function(){
+          player && player.api_stop();
         },
         seek: function(relative){
           player && player.api_seekTo((player.api_getTrackDuration() * relative));
@@ -352,6 +359,29 @@
         updatePlayStatus(player, false);
         audioEngine.pause();
       },
+      onFinish = function() {
+        var $player = updates.$played.closest('.sc-player'),
+            $nextItem;
+        // update the scrubber width
+        updates.$played.css('width', '0%');
+        // show the position in the track position counter
+        updates.position.innerHTML = timecode(0);
+        // reset the player state
+        updatePlayStatus($player, false);
+        // stop the audio
+        audioEngine.stop();
+        // continue playing through all players
+        // TODO create a nicer auto-play flow
+        if(autoPlay){
+          log('track finished get the next one');
+          $nextItem = $('.sc-trackslist li.active', $player).next('li');
+          // try to find the next track in other player
+          if(!$nextItem.length){
+            $nextItem = $player.nextAll('div.sc-player:first').find('.sc-trackslist li.active');
+          }
+          $nextItem.click();
+        }
+      },
       onSeek = function(player, relative) {
         audioEngine.seek(relative);
       },
@@ -417,10 +447,7 @@
         onVolume(event.volume);
       })
       .bind('scPlayer:onMediaEnd', function(event) {
-        log('track finished get the next one');
-        if(autoPlay){
-          $('.sc-trackslist li.active').next('li').click();
-        }
+        onFinish();
       })
       .bind('scPlayer:onMediaBuffering', function(event) {
         updates.$buffer.css('width', event.percent + '%');
