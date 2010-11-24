@@ -312,12 +312,6 @@
             $item.removeClass('active');
           }
         });
-        // cache the references to most updated DOM nodes in the progress bar
-        updates = {
-          $buffer: $('.sc-buffer', $player),
-          $played: $('.sc-played', $player),
-          position:  $('.sc-position', $player)[0]
-        };
         // update the track duration in the progress bar
         $('.sc-duration', $player).html(timecode(track.duration));
         // put the waveform into the progress bar
@@ -334,7 +328,6 @@
           currentUrl = url;
           // log('will load', url);
           audioEngine.load(track, apiKey);
-          autoPlay = true;
         }
       },
       getPlayerData = function(node) {
@@ -352,6 +345,12 @@
       onPlay = function(player, id) {
         var track = getPlayerData(player).tracks[id || 0];
         updateTrackInfo(player, track);
+        // cache the references to most updated DOM nodes in the progress bar
+        updates = {
+          $buffer: $('.sc-buffer', player),
+          $played: $('.sc-played', player),
+          position:  $('.sc-position', player)[0]
+        };
         updatePlayStatus(player, true);
         play(track);
       },
@@ -372,15 +371,13 @@
         audioEngine.stop();
         // continue playing through all players
         // TODO create a nicer auto-play flow
-        if(autoPlay){
-          log('track finished get the next one');
-          $nextItem = $('.sc-trackslist li.active', $player).next('li');
-          // try to find the next track in other player
-          if(!$nextItem.length){
-            $nextItem = $player.nextAll('div.sc-player:first').find('.sc-trackslist li.active');
-          }
-          $nextItem.click();
+        log('track finished get the next one');
+        $nextItem = $('.sc-trackslist li.active', $player).next('li');
+        // try to find the next track in other player
+        if(!$nextItem.length){
+          $nextItem = $player.nextAll('div.sc-player:first').find('.sc-trackslist li.active');
         }
+        $nextItem.click();
       },
       onSeek = function(player, relative) {
         audioEngine.seek(relative);
@@ -424,8 +421,9 @@
           var duration = audioEngine.getDuration(),
               position = audioEngine.getPosition(),
               relative = (position / duration);
+
           // update the scrubber width
-          updates.$played.css('width', (relative * 100) + '%');
+          updates.$played.css('width', (100 * relative) + '%');
           // show the position in the track position counter
           updates.position.innerHTML = timecode(position);
           // announce the track position to the DOM
@@ -524,6 +522,10 @@
           $('.sc-position', $player)[0].innerHTML = timecode(0);
           // set up the first track info
           updateTrackInfo($player, tracks[0]);
+          // if auto play is enabled and it's the first player, start playing
+          if(autoPlay && players[0].node === $player){
+            onPlay(players[0].node);
+          }
         });
 
 
@@ -542,9 +544,10 @@
 
   // plugin wrapper
   $.fn.scPlayer = function(options) {
-    return this.each(function() {
+    this.each(function() {
       $.scPlayer(options, this);
     });
+    return this;
   };
 
   // default plugin options
