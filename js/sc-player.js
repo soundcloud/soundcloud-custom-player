@@ -9,7 +9,7 @@
 *   <a href="http://soundcloud.com/matas/hobnotropic" class="sc-player">My new dub track</a>
 *   The link will be automatically replaced by the HTML based player
 */
-;(function($) {
+(function($) {
   // Convert milliseconds into Hours (h), Minutes (m), and Seconds (s)
   var timecode = function(ms) {
     var hms = function(ms) {
@@ -230,8 +230,7 @@
 
 
 
-  var autoPlay = false,
-      apiKey,
+  var apiKey,
       players = [],
       updates = {},
       currentUrl,
@@ -463,7 +462,8 @@
         $artworks = $('<ol class="sc-artwork-list"></ol>').appendTo($player),
         $info = $('<div class="sc-info"><h3></h3><h4></h4><p></p><a href="#" class="sc-info-close">X</a></div>').appendTo($player),
         $controls = $('<div class="sc-controls"></div>').appendTo($player),
-        $list = $('<ol class="sc-trackslist"></ol>').appendTo($player);
+        $list = $('<ol class="sc-trackslist"></ol>').appendTo($player),
+        didAutoPlay = false;
 
         // add the classes of the source node to the player itself
         // the players can be indvidually styled this way
@@ -471,8 +471,6 @@
           $player.addClass(sourceClasses).addClass(opts.customClass);
         }
 
-        // enable autoplay if set in the options
-        autoPlay = opts.autoPlay;
 
         // adding controls to the player
         $player
@@ -523,8 +521,9 @@
           // set up the first track info
           updateTrackInfo($player, tracks[0]);
           // if auto play is enabled and it's the first player, start playing
-          if(autoPlay && players[0].node === $player){
-            onPlay(players[0].node);
+          if(opts.autoPlay && !didAutoPlay){
+            onPlay($player);
+            didAutoPlay = true;
           }
         });
 
