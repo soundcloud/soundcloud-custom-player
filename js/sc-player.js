@@ -231,6 +231,7 @@
 
 
   var apiKey,
+      didAutoPlay = false,
       players = [],
       updates = {},
       currentUrl,
@@ -462,8 +463,7 @@
         $artworks = $('<ol class="sc-artwork-list"></ol>').appendTo($player),
         $info = $('<div class="sc-info"><h3></h3><h4></h4><p></p><a href="#" class="sc-info-close">X</a></div>').appendTo($player),
         $controls = $('<div class="sc-controls"></div>').appendTo($player),
-        $list = $('<ol class="sc-trackslist"></ol>').appendTo($player),
-        didAutoPlay = false;
+        $list = $('<ol class="sc-trackslist"></ol>').appendTo($player);
 
         // add the classes of the source node to the player itself
         // the players can be indvidually styled this way
@@ -543,6 +543,9 @@
 
   // plugin wrapper
   $.fn.scPlayer = function(options) {
+    // reset the auto play
+    didAutoPlay = false;
+    // create the players
     this.each(function() {
       $.scPlayer(options, this);
     });
