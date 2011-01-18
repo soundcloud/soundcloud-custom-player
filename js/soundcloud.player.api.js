@@ -14,12 +14,14 @@
     _listeners: [],
     // re-dispatches widget events in the DOM, using JS library support, the events also should bubble up the DOM
     _redispatch: function(eventType, flashId, data) {
+      var playerNode,
+          lsnrs  = this._listeners[eventType] || [],
+          // construct the custom eventType  e.g. 'soundcloud:onPlayerReady'
+          customEventType = 'soundcloud:' + eventType;
+
       try{
-        // find the flash player
-        var playerNode = this.getPlayer(flashId),
-            listeners  = this._listeners[eventType] || [];
-            // construct the custom eventType  e.g. 'soundcloud:onPlayerReady'
-            customEventType = 'soundcloud:' + eventType;
+        // find the flash player, might throw an exception
+        playerNode = this.getPlayer(flashId);
       }catch(e){
         if(this.debug && window.console){
           console.error('unable to dispatch widget event ' + eventType + ' for the widget id ' + flashId, data, e);
@@ -37,8 +39,8 @@
         // TODO add more JS libraries that support custom DOM events
       }
       // if there are any listeners registered to this event, trigger them all
-      for(i in listeners){
-        listeners[i].apply(playerNode, [playerNode, data]);
+      for(var i = 0, l = lsnrs.length; i < l; i += 1) {
+        lsnrs[i].apply(playerNode, [playerNode, data]);
       }
       // log the events in debug mode
       if(this.debug && window.console){
@@ -58,12 +60,10 @@
     // you can also remove the function listener if e.g you want to trigger it only once
     // soundcloud.removeEventListener('onMediaPlay', myFunctionOne);
     removeEventListener: function(eventType, callback) {
-      var listeners = this._listeners[eventType];
-      if(listeners){
-        for(i in listeners){
-          if(listeners[i] === callback){
-            listeners.splice(i, 1);
-          }
+      var lsnrs = this._listeners[eventType] || [];
+      for(var i = 0, l = lsnrs.length; i < l; i += 1) {
+        if(lsnrs[i] === callback){
+          lsnrs.splice(i, 1);
         }
       }
     },
@@ -122,6 +122,10 @@
     // fired when the widget is still buffering, means you can't seek in the track fully yet
     onMediaBuffering : function(flashId, data) {
       this._redispatch('onMediaBuffering', flashId, data);
+    },
+    // fired when the user seeks in the track
+    onMediaSeek : function(flashId, data) {
+      this._redispatch('onMediaSeek', flashId, data);
     },
     // fired when the widget is done buffering and the whole track length is seekable
     onMediaDoneBuffering : function(flashId, data) {
