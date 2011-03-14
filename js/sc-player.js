@@ -40,8 +40,12 @@
       useSandBox = false,
       $doc = $(document),
       log = function(args) {
-        if(debug && window.console && window.console.log){
-          window.console.log.apply(window.console, arguments);
+        try {
+          if(debug && window.console && window.console.log){
+            window.console.log.apply(window.console, arguments);
+          }
+        } catch (e) {
+          // no console available
         }
       },
       domain = useSandBox ? 'sandbox-soundcloud.com' : 'soundcloud.com',
