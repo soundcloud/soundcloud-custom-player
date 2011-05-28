@@ -91,6 +91,8 @@
   height: 30px;
   position: absolute;
   top: 0;
+  width: 0;
+  -webkit-transition: width 1s linear;
 }
 
 .sc-scrubber .sc-time-indicators{
