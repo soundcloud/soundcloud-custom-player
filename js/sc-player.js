@@ -243,7 +243,8 @@
         var index = 0,
             playerObj = {node: $player, tracks: []},
             loadUrl = function(link) {
-              $.getJSON(scApiUrl(link.url, apiKey), function(data) {
+              var apiUrl = scApiUrl(link.url, apiKey);
+              $.getJSON(apiUrl, function(data) {
                 // log('data loaded', link.url, data);
                 index += 1;
                 if(data.tracks){
@@ -272,7 +273,7 @@
                   loadUrl(links[index]);
                 }else{
                   // if loading finishes, anounce it to the GUI
-                  playerObj.node.trigger({type:'onTrackDataLoaded', playerObj: playerObj});
+                  playerObj.node.trigger({type:'onTrackDataLoaded', playerObj: playerObj, url: apiUrl});
                 }
              });
            };
@@ -347,7 +348,7 @@
         }
         $(player)
           .toggleClass('playing', status)
-          .trigger((status ? 'onPlayerPlay' : 'onPlayerPause') + '.scPlayer');
+          .trigger((status ? 'onPlayerPlay' : 'onPlayerPause'));
       },
       onPlay = function(player, id) {
         var track = getPlayerData(player).tracks[id || 0];
@@ -548,6 +549,11 @@
   // stop all players, might be useful, before replacing the player dynamically
   $.scPlayer.stopAll = function() {
     $('.sc-player.playing a.sc-pause').click();
+  };
+  
+  // destroy all the players and audio engine, usefull when reloading part of the page and audio has to stop
+  $.scPlayer.destroy = function() {
+    $('.sc-player, .sc-player-engine-container').remove();
   };
 
   // plugin wrapper
