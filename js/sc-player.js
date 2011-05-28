@@ -254,6 +254,9 @@
                   data.permalink_url = link.url;
                   // if track, add to player
                   playerObj.tracks.push(data);
+                }else if(data.creator){
+                  // it's a group!
+                  links.push({url:data.uri + '/tracks'});
                 }else if(data.username){
                   // if user, get his tracks or favorites
                   if(/favorites/.test(link.url)){
@@ -269,7 +272,7 @@
                   loadUrl(links[index]);
                 }else{
                   // if loading finishes, anounce it to the GUI
-                  playerObj.node.trigger({type:'onTrackDataLoaded.scPlayer', playerObj: playerObj});
+                  playerObj.node.trigger({type:'onTrackDataLoaded', playerObj: playerObj});
                 }
              });
            };
@@ -509,10 +512,6 @@
               .toggleClass('active', active)
               .data('sc-track', track);
           });
-          $player
-            .removeClass('loading')
-            .trigger('onPlayerInit.scPlayer');
-
           // update the element before rendering it in the DOM
           $player.each(function() {
             if($.isFunction(opts.beforeRender)){
@@ -524,6 +523,12 @@
           $('.sc-position', $player)[0].innerHTML = timecode(0);
           // set up the first track info
           updateTrackInfo($player, tracks[0]);
+
+          // announce the succesful initialization
+          $player
+            .removeClass('loading')
+            .trigger('onPlayerInit');
+
           // if auto play is enabled and it's the first player, start playing
           if(opts.autoPlay && !didAutoPlay){
             onPlay($player);
