@@ -116,7 +116,7 @@
       return {
         load: function(track, apiKey) {
           player.pause();
-          player.src = track.stream_url + '?consumer_key=' + apiKey;
+          player.src = track.stream_url + (/\\?/.test(track.stream_url) ? '&' : '?') + 'consumer_key=' + apiKey;
           player.load();
           player.play();
         },
