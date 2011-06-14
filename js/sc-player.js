@@ -32,7 +32,7 @@
   };
   // shuffle the array
   var shuffle = function(arr) {
-    arr.sort(function() { return Math.round(Math.random()); } );
+    arr.sort(function() { return 1 - Math.floor(Math.random() * 3); } );
     return arr;
   };
 
