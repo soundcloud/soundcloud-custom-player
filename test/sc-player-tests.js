@@ -1,9 +1,67 @@
+// TODO mock the api responses
+var mockList = [];
+function mockAjax(mockObj) {
+  mockList.push(mockObj);
+};
+$.getJSON = function(url, callback) {
+  if ( !mockList.length ){
+    throw "No mocks prepared! Detected on:" + url;
+  }
+  $.each(mockList, function(index, mock) {
+    var urlRx = new RegExp(mock.url);
+    if( url.match(urlRx) ) {
+      $.get(mock.proxy, callback);
+      return false;
+    } else if ( index === mockList.length - 1 ) {
+      throw "Unmocked request to:" + url;
+    }
+  });
+  
+}
+
+mockList = [
+  {
+    url: 'http://soundcloud.com/matas/hobnotropic',
+    proxy: 'fixtures/hobnotropic.json'
+  },
+  {
+    url: 'http://soundcloud.com/forss/sets/soulhack',
+    proxy: 'fixtures/soulhack.json'
+  },
+  {
+    url: 'http://api.soundcloud.com/users/183/tracks',
+    proxy: 'fixtures/forss-tracks.json'
+  },
+  {
+    url: 'http://soundcloud.com/forss/city-ports',
+    proxy: 'fixtures/city-ports.json'
+  },
+  {
+    url: 'http://soundcloud.com/forss',
+    proxy: 'fixtures/forss.json'
+  },
+  {
+    url: 'http://soundcloud.com/matas/favorites',
+    proxy: 'fixtures/favorites.json'
+  },
+  {
+    url: 'http://soundcloud.com/groups/field-recordings',
+    proxy: 'fixtures/group.json'
+  },
+  {
+    url: 'http://api.soundcloud.com/groups/8/tracks',
+    proxy: 'fixtures/group-tracks.json'
+  },
+  {
+    url: 'http://soundcloud.com/alex/a-phone-call-on-saturday-1',
+    proxy: 'fixtures/alex-call.json'
+  }
+];
+
+
 module("rendering");
 
-// TODO mock the api responses
-
 asyncTest('track', 11, function() {
-
   $(document).one('onPlayerInit', function(event) {
     var $player = $(event.target);
     equal($player.find('.sc-controls .sc-play').text(), "Play", "The play button is set correctly");
@@ -122,8 +180,8 @@ asyncTest('group', 3, function() {
   $(document).one('onPlayerInit', function(event) {
     var $player = $(event.target);
     equal($player.find('.sc-trackslist li').length, 50, "All the tracks are in the list");
-    equal($player.find('.sc-trackslist li.active a').text(), "not f**king happy", "First track is selected and has correct title");
-    equal($player.find('.sc-trackslist li:eq(1) .sc-track-duration').text(), "3.38", "Track duration is correct in the tracklist");
+    equal($player.find('.sc-trackslist li.active a').text(), "the dawkins riots", "First track is selected and has correct title");
+    equal($player.find('.sc-trackslist li:eq(1) .sc-track-duration').text(), "14.59", "Track duration is correct in the tracklist");
     start();
   });
 
@@ -160,8 +218,9 @@ asyncTest('multiple links', 3, function() {
 
 
 module('options', {
+  setup: function() {
+  },
   teardown: function() {
-    $.mockjaxClear();
     $.scPlayer.destroy();
   }
 });
@@ -205,7 +264,7 @@ asyncTest("customClass", 1, function() {
 
 
 asyncTest("loadArtworks", 2, function() {
-
+  
   $(document).one('onPlayerInit', function(event) {
     var $player = $(event.target);
     equal($player.find('.sc-artwork-list img').length, 1, 'only one artwork loaded');
@@ -248,10 +307,6 @@ asyncTest("apiKey", function() {
     equal(event.url, 'http://api.soundcloud.com/resolve?url=http://soundcloud.com/matas/hobnotropic&format=json&consumer_key=myTestKey&callback=?', 'The custom API key was used');
     start();
   });
-  $.mockjax({
-    url: 'http://api.soundcloud.com/resolve*',
-    proxy: 'fixtures/set.json'
-  });
   var $link = $('<a href="http://soundcloud.com/matas/hobnotropic">Hobnotropic</a>');
 
   $("#qunit-fixture").append($link);
@@ -261,6 +316,29 @@ asyncTest("apiKey", function() {
   });
 });
 
+asyncTest('links', 3, function() {
+
+  $(document).one('onPlayerInit', function(event) {
+    var $player = $(event.target);
+    equal($player.find('.sc-trackslist li').length, 3, "All the tracks are in the list");
+    equal($player.find('.sc-trackslist li.active a').text(), "Hobnotropic", "First track is selected and has correct title");
+    equal($player.find('.sc-trackslist li:eq(1) .sc-track-duration').text(), "2.22", "Track duration is correct in the tracklist");
+    start();
+  });
+
+  var $link = $('<div></div>');
+
+  $("#qunit-fixture").append($link);
+
+  $link.scPlayer({
+    links: [
+      {url: 'http://soundcloud.com/matas/hobnotropic', title: 'Hobnotropic'},
+      {url: 'http://soundcloud.com/forss/city-ports', title: 'City Ports'},
+      {url: 'http://soundcloud.com/alex/a-phone-call-on-saturday-1', title: 'Phone call'}
+    ]
+  });
+
+});
 
 asyncTest("randomize", 1, function() {
   var indexes = [];
