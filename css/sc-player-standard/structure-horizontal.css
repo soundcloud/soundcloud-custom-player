@@ -46,6 +46,7 @@
 
 .sc-player .sc-controls{
   position: absolute;
+  z-index: 800;
   width: 50px;
   height: 50px;
   margin-left: -25px;
@@ -84,12 +85,8 @@
   width: 250px;
   -webkit-box-shadow: 1px 1px 4px rgba(0,0,0,0.30);
   -moz-box-shadow: 1px 1px 4px rgba(0,0,0,0.30);
-  display: none;
-}
-
-.sc-player:hover .sc-scrubber {
   display: block;
-  left: 10px;
+  z-index: 600;
 }
 
 .sc-scrubber .sc-time-span{
