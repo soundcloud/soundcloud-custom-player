@@ -53,7 +53,7 @@
         return (/api\./.test(url) ? url + '?' : 'http://api.' + domain +'/resolve?url=' + url + '&') + 'format=json&consumer_key=' + apiKey +'&callback=?';
       };
 
-
+  // TODO Expose the audio engine, so it can be unit-tested
   var audioEngine = function() {
     var html5AudioAvailable = function() {
         var state = false;
@@ -116,7 +116,7 @@
       return {
         load: function(track, apiKey) {
           player.pause();
-          player.src = track.stream_url + (/\\?/.test(track.stream_url) ? '&' : '?') + 'consumer_key=' + apiKey;
+          player.src = track.stream_url + (/\?/.test(track.stream_url) ? '&' : '?') + 'consumer_key=' + apiKey;
           player.load();
           player.play();
         },
