@@ -25,6 +25,14 @@ mockList = [
     proxy: 'fixtures/hobnotropic.json'
   },
   {
+    url: 'https://soundcloud.com/matas/hobnotropic',
+    proxy: 'fixtures/hobnotropic.json'
+  },
+  {
+    url: 'http://api.soundcloud.com/tracks/49931',
+    proxy: 'fixtures/hobnotropic.json'
+  },
+  {
     url: 'http://soundcloud.com/forss/sets/soulhack',
     proxy: 'fixtures/soulhack.json'
   },
@@ -209,6 +217,41 @@ asyncTest('multiple links', 3, function() {
     .append('<a href="http://soundcloud.com/matas/hobnotropic">Matas hobnotropic</a>')
     .append('<a href="http://soundcloud.com/forss/city-ports">Forss City Ports</a>')
     .append('<a href="http://soundcloud.com/alex/a-phone-call-on-saturday-1">Phone call</a>');
+
+  $("#qunit-fixture").append($link);
+
+  $link.scPlayer();
+
+});
+
+asyncTest('api url track', 3, function() {
+
+  $(document).one('onPlayerInit', function(event) {
+    var $player = $(event.target);
+    equal($player.find('.sc-trackslist li').length, 1, "All the tracks are in the list");
+    equal($player.find('.sc-trackslist li.active a').text(), "Hobnotropic", "First track is selected and has correct title");
+    equal($player.find('.sc-trackslist li:eq(0) .sc-track-duration').text(), "8.09", "Track duration is correct in the tracklist");
+    start();
+  });
+
+  var $link = $('<a href="http://api.soundcloud.com/tracks/49931">Matas hobnotropic</a>');
+
+  $("#qunit-fixture").append($link);
+
+  $link.scPlayer();
+
+});
+
+asyncTest('ssl track', 2, function() {
+
+  $(document).one('onPlayerInit', function(event) {
+    var $player = $(event.target);
+    equal($player.find('.sc-trackslist li').length, 1, "All the tracks are in the list");
+    equal($player.find('.sc-trackslist li.active a').text(), "Hobnotropic", "First track is selected and has correct title");
+    start();
+  });
+
+  var $link = $('<a href="https://soundcloud.com/matas/hobnotropic">Matas hobnotropic</a>');
 
   $("#qunit-fixture").append($link);
 

@@ -92,7 +92,7 @@
   position: absolute;
   top: 0;
   width: 0;
-  -webkit-transition: width 1s linear;
+  -webkit-transition: width 0.1s linear;
 }
 
 .sc-scrubber .sc-time-indicators{

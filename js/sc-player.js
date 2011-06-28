@@ -49,8 +49,23 @@
         }
       },
       domain = useSandBox ? 'sandbox-soundcloud.com' : 'soundcloud.com',
+      secureDocument = (document.location.protocol === 'https:'),
+      // convert a SoundCloud resource URL to an API URL
       scApiUrl = function(url, apiKey) {
-        return (/api\./.test(url) ? url + '?' : 'http://api.' + domain +'/resolve?url=' + url + '&') + 'format=json&consumer_key=' + apiKey +'&callback=?';
+        var resolver = ( secureDocument || (/^https/i).test(url) ? 'https' : 'http') + '://api.' + domain + '/resolve?url=',
+            params = 'format=json&consumer_key=' + apiKey +'&callback=?';
+
+        // force the secure url in the secure environment
+        if( secureDocument ) {
+          url = url.replace(/^http:/, 'https:');
+        }
+
+        // check if it's already a resolved api url
+        if ( (/api\./).test(url) ) {
+          return url + '?' + params;
+        } else {
+          return resolver + url + '&' + params;
+        }
       };
 
   // TODO Expose the audio engine, so it can be unit-tested
@@ -550,7 +565,7 @@
   $.scPlayer.stopAll = function() {
     $('.sc-player.playing a.sc-pause').click();
   };
-  
+
   // destroy all the players and audio engine, usefull when reloading part of the page and audio has to stop
   $.scPlayer.destroy = function() {
     $('.sc-player, .sc-player-engine-container').remove();
