@@ -170,7 +170,7 @@
       var engineId = 'scPlayerEngine',
           player,
           flashHtml = function(url) {
-            var swf = 'http://player.' + domain +'/player.swf?url=' + url +'&amp;enable_api=true&amp;player_type=engine&amp;object_id=' + engineId;
+            var swf = (secureDocument ? 'https' : 'https') + '://player.' + domain +'/player.swf?url=' + url +'&amp;enable_api=true&amp;player_type=engine&amp;object_id=' + engineId;
             if ($.browser.msie) {
               return '<object height="100%" width="100%" id="' + engineId + '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" data="' + swf + '">'+
                 '<param name="movie" value="' + swf + '" />'+
@@ -182,7 +182,6 @@
                 '</object>';
             }
           };
-
 
 
       // listen to audio engine events
