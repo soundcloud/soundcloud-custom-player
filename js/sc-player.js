@@ -207,7 +207,7 @@
 
       return {
         load: function(track) {
-          var url = track.permalink_url;
+          var url = track.uri;
           if(player){
             player.api_load(url);
           }else{
