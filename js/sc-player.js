@@ -391,8 +391,14 @@
         updatePlayStatus($player, false);
         // stop the audio
         audioEngine.stop();
+        $player.trigger('onPlayerTrackFinish');
+      },
+      onSeek = function(player, relative) {
+        audioEngine.seek(relative);
+      },
+      onSkip = function(player) {
+        var $player = $(player);
         // continue playing through all players
-        // TODO create a nicer auto-play flow
         log('track finished get the next one');
         $nextItem = $('.sc-trackslist li.active', $player).next('li');
         // try to find the next track in other player
@@ -400,9 +406,6 @@
           $nextItem = $player.nextAll('div.sc-player:first').find('.sc-trackslist li.active');
         }
         $nextItem.click();
-      },
-      onSeek = function(player, relative) {
-        audioEngine.seek(relative);
       },
       soundVolume = function() {
         var vol = 80,
@@ -539,6 +542,13 @@
           // set up the first track info
           updateTrackInfo($player, tracks[0]);
 
+          // if continous play enabled always skip to the next track after one finishes
+          if (opts.continuePlayback) {
+            $player.bind('onPlayerTrackFinish', function(event) {
+              onSkip($player);
+            });
+          }
+
           // announce the succesful initialization
           $player
             .removeClass('loading')
@@ -593,6 +603,7 @@
       $('a.sc-player, div.sc-player').scPlayer();
     },
     autoPlay: false,
+    continuePlayback: true,
     randomize: false,
     loadArtworks: 5,
     // the default Api key should be replaced by your own one

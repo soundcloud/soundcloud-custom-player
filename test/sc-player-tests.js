@@ -325,6 +325,48 @@ asyncTest("loadArtworks", 2, function() {
 
 });
 
+asyncTest("continuePlayback:true", 2, function() {
+  
+  $(document).one('onPlayerInit', function(event) {
+    var $player = $(event.target);
+    $('.sc-trackslist li:first').click();
+    ok($player.find('.sc-trackslist li:first').is('.active'), 'First track has to be selected initially');
+    $(document).trigger('scPlayer:onMediaEnd');
+    ok($player.find('.sc-trackslist li:eq(1)').is('.active'), 'Second track has to be selected');
+    start();
+  });
+
+  var $link = $('<a href="http://soundcloud.com/forss/sets/soulhack">Soulhack</a>');
+
+  $("#qunit-fixture").append($link);
+
+  $link.scPlayer({
+    continuePlayback: true
+  });
+});
+
+asyncTest("continuePlayback:false", 2, function() {
+  
+  $(document).one('onPlayerInit', function(event) {
+    var $player = $(event.target);
+    $('.sc-trackslist li:first').click();
+    ok($player.find('.sc-trackslist li:first').is('.active'), 'First track has to be selected initially');
+    $(document).trigger('scPlayer:onMediaEnd');
+    ok($player.find('.sc-trackslist li:first').is('.active'), 'First track still has to be selected');
+    start();
+  });
+
+  var $link = $('<a href="http://soundcloud.com/forss/sets/soulhack">Soulhack</a>');
+
+  $("#qunit-fixture").append($link);
+
+  $link.scPlayer({
+    continuePlayback: false
+  });
+
+});
+
+
 
 asyncTest("autoPlay", 2, function() {
 
