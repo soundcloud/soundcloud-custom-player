@@ -75,13 +75,12 @@
         try{
           var a = new Audio();
           state = a.canPlayType && (/maybe|probably/).test(a.canPlayType('audio/mpeg'));
-          // let's enable the html5 audio on selected mobile devices first, unlikely to support Flash
-          // the desktop browsers are still better with Flash, e.g. see the Safari 10.6 bug
-          // comment the following line out, if you want to force the html5 mode
-          state = state && (/iPad|iphone|mobile|pre\//i).test(navigator.userAgent);
+          // uncomment the following line, if you want to enable the html5 audio only on mobile devices
+          // state = state && (/iPad|iphone|mobile|pre\//i).test(navigator.userAgent);
         }catch(e){
           // there's no audio support here sadly
         }
+
         return state;
     }(),
     callbacks = {
@@ -142,18 +141,20 @@
           player.pause();
         },
         stop: function(){
-          player.currentTime = 0;
-          player.pause();
+          if (player.currentTime) {
+            player.currentTime = 0;
+            player.pause();
+          }
         },
         seek: function(relative){
           player.currentTime = player.duration * relative;
           player.play();
         },
         getDuration: function() {
-          return player.duration;
+          return player.duration * 1000;
         },
         getPosition: function() {
-          return player.currentTime;
+          return player.currentTime * 1000;
         },
         setVolume: function(val) {
           if(a){
@@ -395,6 +396,7 @@
       },
       onSeek = function(player, relative) {
         audioEngine.seek(relative);
+        $(player).trigger('onPlayerSeek');
       },
       onSkip = function(player) {
         var $player = $(player);
