@@ -122,7 +122,8 @@
       // prepare the listeners
       player.addEventListener('play', callbacks.onPlay, false);
       player.addEventListener('pause', callbacks.onPause, false);
-      player.addEventListener('ended', callbacks.onEnd, false);
+      // handled in the onTimeUpdate for now untill all the browsers support 'ended' event
+      // player.addEventListener('ended', callbacks.onEnd, false);
       player.addEventListener('timeupdate', onTimeUpdate, false);
       player.addEventListener('progress', onProgress, false);
 
