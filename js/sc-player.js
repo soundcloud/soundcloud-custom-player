@@ -158,9 +158,7 @@
           return player.currentTime * 1000;
         },
         setVolume: function(val) {
-          if(a){
-            a.volume = val / 100;
-          }
+          player.volume = val / 100;
         }
       };
 
