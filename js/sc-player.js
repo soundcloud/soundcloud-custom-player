@@ -226,6 +226,8 @@
         },
         seek: function(relative){
           player && player.api_seekTo((player.api_getTrackDuration() * relative));
+          // make flash-thing consistentbehave like html5-thing
+          player && player.api_play();
         },
         getDuration: function() {
           return player && player.api_getTrackDuration && player.api_getTrackDuration() * 1000;
@@ -396,6 +398,7 @@
       onSeek = function(player, relative) {
         audioEngine.seek(relative);
         $(player).trigger('onPlayerSeek');
+        updatePlayStatus(player, true);
       },
       onSkip = function(player) {
         var $player = $(player);
