@@ -16,7 +16,7 @@
 .sc-player .sc-artwork-list{
   width: 100%;
   height: 50%;
-  background-color: #transparent;
+  background-color: transparent;
   list-style-type: none;
   position: relative;
 }
