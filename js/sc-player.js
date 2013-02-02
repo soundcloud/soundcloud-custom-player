@@ -617,7 +617,7 @@
   //--------------------------------------------------------
 
   // toggling play/pause
-  $('a.sc-play, a.sc-pause').live('click', function(event) {
+  $(document).on('click','a.sc-play, a.sc-pause', function(event) {
     var $list = $(this).closest('.sc-player').find('ol.sc-trackslist');
     // simulate the click in the tracklist
     $list.find('li.active').click();
@@ -625,7 +625,7 @@
   });
 
   // displaying the info panel in the player
-  $('a.sc-info-toggle, a.sc-info-close').live('click', function(event) {
+  $(document).on('click','a.sc-info-toggle, a.sc-info-close', function(event) {
     var $link = $(this);
     $link.closest('.sc-player')
       .find('.sc-info').toggleClass('active').end()
@@ -634,7 +634,7 @@
   });
 
   // selecting tracks in the playlist
-  $('.sc-trackslist li').live('click', function(event) {
+  $(document).on('click','.sc-trackslist li', function(event) {
     var $track = $(this),
         $player = $track.closest('.sc-player'),
         trackId = $track.data('sc-track').id,
@@ -669,16 +669,16 @@
 
 
   // seeking in the loaded track buffer
-  $('.sc-time-span')
-    .live('click', function(event) {
+  $(document)
+    .on('click','.sc-time-span', function(event) {
       scrub(this, event.pageX);
       return false;
     })
-    .live('touchstart', function(event) {
+    .on('touchstart','.sc-time-span', function(event) {
       this.addEventListener('touchmove', onTouchMove, false);
       event.originalEvent.preventDefault();
     })
-    .live('touchend', function(event) {
+    .on('touchend','.sc-time-span', function(event) {
       this.removeEventListener('touchmove', onTouchMove, false);
       event.originalEvent.preventDefault();
     });
@@ -702,11 +702,11 @@
     $(node).unbind('mousemove.sc-player');
   };
 
-  $('.sc-volume-slider')
-    .live('mousedown', function(event) {
+  $(document)
+    .on('mousedown','.sc-volume-slider', function(event) {
       startVolumeTracking(this, event);
     })
-    .live('mouseup', function(event) {
+    .on('mouseup','.sc-volume-slider', function(event) {
       stopVolumeTracking(this, event);
     });
 
