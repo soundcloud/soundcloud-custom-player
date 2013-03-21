@@ -1,0 +1,85 @@
+/*------------------------------------------------------------------------------------------------------------------------
+	Author: Sean Goresht
+	www: http://seangoresht.com/
+	github: https://github.com/srsgores
+	twitter: http://twitter.com/S.Goresht
+	
+	Licensed under the GNU Public License
+	
+	=============================================================================
+	Filename:  variables
+	=============================================================================
+	
+--------------------------------------------------------------------------------------------------------------------- */
+
+/* =============================================================================
+Toggles for appearance
+========================================================================== */
+@isHorizontal = True; //set to false to enable vertical player
+
+/* =============================================================================
+Sitewide variables
+========================================================================== */
+@baseFontSize: 16px;
+@em: 1em;
+
+@baseMargin: @em;
+@marginLarge: (@baseMargin * 2);
+@marginSmall: (@baseMargin / 2);
+@marginMini: (@baseMargin / 4);
+
+@padding: @em;
+@paddingSmall: (@padding / 2);
+@paddingMini: (@padding / 4);
+
+@soundCloudPlayerHeight: auto;
+@soundCloudPlayerWidth: 100%;
+
+@soundCloudVerticalMargin: @baseMargin;
+@soundCloudHorizontalMargin: 0;
+
+/* -------------------------------------------------------- */
+
+@soundCloudThemePrimaryColour: #F6A400;
+@soundCloudThemeSecondaryColour: #333333;
+
+/* Controls */
+@soundCloudControlWidth: (@em * 2);
+@soundCloudControlHeight: (@em * 2);
+@soundCloudControlTopSpacing: @marginSmall;
+
+/* Track List */
+@soundCloudTrackListWidth: (@soundCloudPlayerWidth - 8); //something around 92% is usually ok :)
+@soundCloudTrackListHeight: @soundCloudPlayerHeight;
+@soundCloudTrackListLeftSpacing: @marginLarge;
+@soundCloudTrackListTrackWidth: (@soundCloudPlayerWidth - 4.5); //approx. 95.5%
+@soundCloudTrackListTrackPadding: @paddingMini;
+@soundCloudTrackListTrackMargin: @marginMini;
+
+/* Info Panel */
+@soundCloudInfoPanelTopSpacing: @marginSmall;
+@soundCloudInfoPanelWidth: 12.5em;
+@soundCloudInfoPanelHeight: 28.125em;
+@soundCloudInfoPanelMargin: 0 @marginLarge 0 0;
+@soundCloudInfoPanelPadding: @paddingMini;
+@soundCloudInfoPanelToggleTopSpacing: @marginSmall;
+@soundCloudInfoPanelToggleLeftSpacing: @marginSmall;
+@soundCloudInfoPanelCloseTopSpacing: @soundCloudInfoPanelTopSpacing;
+@soundCloudInfoPanelCloseRightSpacing: @soundCloudInfoPanelToggleLeftSpacing;
+
+/* Scrubber */
+@soundCloudScrubberBottomSpacing: @marginSmall;
+@soundCloudScrubberWidth: @soundCloudTrackListTrackWidth;
+@soundCloudScrubberHeight: @soundCloudControlTopSpacing;
+
+@soundCloudScrubberPlayingHeight: @soundCloudScrubberHeight;
+@soundCloudScrubberPlayingTransition: "width 0.1s linear";
+@soundCloudScrubberTimeSpanMargin: @marginMini;
+@soundCloudScrubberTimeSpanHeight: @marginLarge;
+@soundCloudScrubberTimeIndicatorRightSpacing: 0;
+@soundCloudScrubberTimeIndicatorTopSpacing: -@baseMargin;
+
+@soundCloudPlayerHoverLeftSpacing: (@soundCloudVerticalMargin + @baseMargin);
+
+
+
