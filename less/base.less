@@ -12,150 +12,146 @@
 	Contains base styles for soundcloud player.  Customizable via variables.less.
 --------------------------------------------------------------------------------------------------------------------- */
 @import "variables";
+@import "mixins";
 
-.soundcloudCustomizedPlayer(@isHorizontal) when (@isHorizontal = False) {
-	.sc-player {
-		width: @soundcloudPlayerWidth;
-		height: @soundcloudPlayerHeight;
-		position: relative;
-		margin: @soundCloudVerticalMargin 0;
-		ol, li {
-			margin: 0;
-			padding: 0;
-			list-style-position: inside;
-		}
-		.sc-artwork-list {
+.sc-player {
+	width: @soundCloudPlayerWidth;
+	height: @soundCloudPlayerHeight;
+	position: relative;
+	margin: @soundCloudVerticalMargin 0;
+	ol, li {
+		margin: 0;
+		padding: 0;
+		list-style-position: inside;
+	}
+	.sc-artwork-list {
+		display: none;
+		li {
+			list-style-type: none;
 			display: none;
-			li {
+			img, div {
 				list-style-type: none;
-				display: none;
-				img, div {
-					list-style-type: none;
-					width: 100%;
-					height: 100%;
-				}
-			}
-			li.active {
-				list-style-type: none;
-				display: block;
+				width: 100%;
+				height: 100%;
 			}
 		}
-		.sc-controls {
-			position: absolute;
+		li.active {
+			list-style-type: none;
+			display: block;
+		}
+	}
+	.sc-controls {
+		position: absolute;
+		width: @soundCloudControlWidth;
+		height: @soundCloudControlHeight;
+		top: @soundCloudControlTopSpacing;
+		left: @soundCloudControlLeftSpacing;
+		margin-left: @soundCloudControlMarginLeft;
+		margin-top: @soundCloudControlMarginTop;
+		a {
+			display: block;
 			width: @soundCloudControlWidth;
 			height: @soundCloudControlHeight;
-			top: @soundCloudControlTopSpacing;
-			a {
-				display: block;
-				width: @soundCloudControlWidth;
-				height: @soundCloudControlHeight;
-				&.sc-play {
-					text-indent: -3000px;
-				}
-				&.sc-pause {
-					text-indent: -3000px;
-					display: none;
-				}
+			&.sc-play {
+				text-indent: -3000px;
 			}
-		}
-		ol.sc-trackslist {
-			position: absolute;
-			float: left;
-			width: @soundCloudTrackListWidth;
-			height: @soundCloudTrackListHeight;
-			left: @soundCloudTrackListLeftSpacing;
-			overflow: auto;
-			li {
-				float: left;
-				width: @soundCloudTrackListTrackWidth;
-				cursor: pointer;
-				margin: @soundCloudTrackListTrackMargin;
-				padding: @soundCloudTrackListTrackPadding;
-				list-style: none;
+			&.sc-pause {
+				text-indent: -3000px;
+				display: none;
 			}
-		}
-		.sc-info {
-			position: absolute;
-			top: @soundCloudInfoPanelTopSpacing;
-			left: -5000px;
-			width: @soundCloudInfoPanelWidth;
-			padding: @soundCloudInfoPanelPadding;
-			height: @soundCloudInfoPanelHeight;
-			z-index: 500;
-			margin: @soundCloudInfoPanelMargin;
-			&.active {
-				left: 25%;
-				top: 5%;
-			}
-		}
-		.sc-info-toggle {
-			position: absolute;
-			top: @soundCloudInfoPanelToggleTopSpacing;
-			left: @soundCloudInfoPanelToggleLeftSpacing;
-			display: none;
-		}
-		.sc-info-toggle.active {
-			left: -5000px;
-		}
-		.sc-info-close {
-			position: absolute;
-			top: @soundCloudInfoPanelCloseTopSpacing;
-			right: @soundCloudInfoPanelCloseRightSpacing;
-		}
-		.hidden {
-			display: none;
 		}
 	}
-
-	.sc-player.playing .sc-controls a.sc-play {
+	ol.sc-trackslist {
+		position: absolute;
+		float: left;
+		width: @soundCloudTrackListWidth;
+		height: @soundCloudTrackListHeight;
+		left: @soundCloudTrackListLeftSpacing;
+		overflow: auto;
+		li {
+			float: left;
+			width: @soundCloudTrackListTrackWidth;
+			cursor: pointer;
+			margin: @soundCloudTrackListTrackMargin;
+			padding: @soundCloudTrackListTrackPadding;
+			list-style: none;
+		}
+	}
+	.sc-info {
+		position: absolute;
+		top: @soundCloudInfoPanelTopSpacing;
+		left: -5000px;
+		width: @soundCloudInfoPanelWidth;
+		padding: @soundCloudInfoPanelPadding;
+		height: @soundCloudInfoPanelHeight;
+		z-index: 500;
+		margin: @soundCloudInfoPanelMargin;
+		&.active {
+			left: 25%;
+			top: 5%;
+		}
+	}
+	.sc-info-toggle {
+		position: absolute;
+		top: @soundCloudInfoPanelToggleTopSpacing;
+		left: @soundCloudInfoPanelToggleLeftSpacing;
 		display: none;
 	}
-
-	.sc-player.playing .sc-controls a.sc-pause {
-		display: block;
-	}
-
-	.sc-scrubber {
-		position: absolute;
+	.sc-info-toggle.active {
 		left: -5000px;
-		bottom: @soundCloudScrubberBottomSpacing;
-		height: @soundCloudScrubberHeight;
-		width: @soundCloudScrubberWidth;
-		.sc-buffer, .sc-played {
-			height: @soundCloudScrubberPlayingHeight;
-			position: absolute;
-			top: 0;
-			width: 0;
-			.transition(@soundCloudScrubberPlayingTransition);
-		}
-		.sc-time-span {
-			height: @soundCloudScrubberTimeSpanHeight;
-			margin: @soundCloudScrubberTimeSpanMargin;
-			position: relative;
-		}
-		.sc-time-indicators {
-			position: absolute;
-			right: @soundCloudScrubberTimeIndicatorRightSpacing;
-			top: @soundCloudScrubberTimeIndicatorTopSpacing;
-		}
 	}
-
-	.sc-player:hover .sc-scrubber, .sc-player.playing .sc-scrubber {
-		display: block;
-		left: @soundCloudPlayerHoverLeftSpacing;
+	.sc-info-close {
+		position: absolute;
+		top: @soundCloudInfoPanelCloseTopSpacing;
+		right: @soundCloudInfoPanelCloseRightSpacing;
 	}
-
-	.sc-player-engine-container {
-		width: 1px;
-		height: 1px;
-		position: fixed;
-		top: 2px;
-		left: 2px;
+	.hidden {
+		display: none;
 	}
 }
 
-.soundcloudCustomizedPlayer(@isHorizontal) when (@isHorizontal = True) {
-
+.sc-player.playing .sc-controls a.sc-play {
+	display: none;
 }
 
-.soundcloudCustomizedPlayer(@isHorizontal);
+.sc-player.playing .sc-controls a.sc-pause {
+	display: block;
+}
+
+.sc-scrubber {
+	position: absolute;
+	left: -5000px;
+	bottom: @soundCloudScrubberBottomSpacing;
+	height: @soundCloudScrubberHeight;
+	width: @soundCloudScrubberWidth;
+	.sc-buffer, .sc-played {
+		height: @soundCloudScrubberPlayingHeight;
+		position: absolute;
+		top: 0;
+		width: 0;
+		.transition(@soundCloudScrubberPlayingTransition);
+	}
+	.sc-time-span {
+		height: @soundCloudScrubberTimeSpanHeight;
+		margin: @soundCloudScrubberTimeSpanMargin;
+		position: relative;
+	}
+	.sc-time-indicators {
+		position: absolute;
+		right: @soundCloudScrubberTimeIndicatorRightSpacing;
+		top: @soundCloudScrubberTimeIndicatorTopSpacing;
+	}
+}
+
+.sc-player:hover .sc-scrubber, .sc-player.playing .sc-scrubber {
+	display: block;
+	left: @soundCloudPlayerHoverLeftSpacing;
+}
+
+.sc-player-engine-container {
+	width: 1px;
+	height: 1px;
+	position: fixed;
+	top: 2px;
+	left: 2px;
+}

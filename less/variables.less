@@ -47,8 +47,10 @@ Sitewide variables
 /* Controls */
 @soundCloudControlWidth: (@em * 2);
 @soundCloudControlHeight: (@em * 2);
-@soundCloudControlTopSpacing: @marginSmall;
-
+@soundCloudControlMarginTop: @marginLarge;
+@soundCloudControlMarginLeft: @marginLarge;
+@soundCloudControlLeftSpacing: 25%;
+@soundCloudControlTopSpacing: 25%;
 /* Track List */
 @soundCloudTrackListWidth: (@soundCloudPlayerWidth - 8); //something around 92% is usually ok :)
 @soundCloudTrackListHeight: @soundCloudPlayerHeight;
@@ -56,6 +58,10 @@ Sitewide variables
 @soundCloudTrackListTrackWidth: (@soundCloudPlayerWidth - 4.5); //approx. 95.5%
 @soundCloudTrackListTrackPadding: @paddingMini;
 @soundCloudTrackListTrackMargin: @marginMini;
+
+/* Artwork List */
+@soundCloudArtworkListWidth: 50%;
+@soundCloudArtworkListHeight: 100%;
 
 /* Info Panel */
 @soundCloudInfoPanelTopSpacing: @marginSmall;
@@ -82,5 +88,18 @@ Sitewide variables
 
 @soundCloudPlayerHoverLeftSpacing: (@soundCloudVerticalMargin + @baseMargin);
 
+
+//initialize vertical/horizontal player
+.soundcloudCustomizedPlayer(@isHorizontal) when (@isHorizontal = False) {
+	//vertical variables here
+	@soundCloudPlayerWidth: 16.875em;
+	@soundCloudPlayerHeight: 33.75em;
+	@soundCloudArtworkListWidth: 100%;
+	@soundCloudArtworkListHeight: 50%;
+	@soundCloudControlTopSpacing: 25%;
+	@soundCloudControlLeftSpacing: 50%;
+
+}
+.soundcloudCustomizedPlayer(@isHorizontal);
 
 
