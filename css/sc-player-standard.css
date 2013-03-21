@@ -1,3 +1,3 @@
 @import url("sc-player-standard/standards.css"); 
-@import url("sc-player-standard/structure-horizontal.css"); /* switch here between 'horizontal' and 'vertical' structure */
+@import url("structure.css"); /* switch here between 'horizontal' and 'vertical' structure */
 @import url("sc-player-standard/colors-green.css"); /* switch here between 'blue', 'orange' and 'green' color-shemes */

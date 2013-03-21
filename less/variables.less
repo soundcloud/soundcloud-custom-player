@@ -32,23 +32,30 @@ Sitewide variables
 @paddingSmall: (@padding / 2);
 @paddingMini: (@padding / 4);
 
-@soundCloudPlayerHeight: auto;
+@soundCloudPlayerHeight: 20em;
 @soundCloudPlayerWidth: 100%;
 
 @soundCloudVerticalMargin: @baseMargin;
 @soundCloudHorizontalMargin: 0;
 
+
+/* -------------------------------------------------------- */
+/* Colours */
+@soundCloudThemePrimaryColour: #F6A400;
+@soundCloudThemeSecondaryColour: #333333;
+/* -------------------------------------------------------- */
+
 /* Controls */
-@soundCloudControlWidth: (@em * 2);
-@soundCloudControlHeight: (@em * 2);
+@soundCloudControlWidth: 50px;
+@soundCloudControlHeight: 50px;
 @soundCloudControlMarginTop: @marginLarge;
-@soundCloudControlMarginLeft: @marginLarge;
+@soundCloudControlMarginLeft: -@marginLarge;
 @soundCloudControlLeftSpacing: 25%;
 @soundCloudControlTopSpacing: 25%;
 /* Track List */
-@soundCloudTrackListWidth: (@soundCloudPlayerWidth - 8); //something around 92% is usually ok :)
+@soundCloudTrackListWidth: 50%; //something around 92% is usually ok :)
 @soundCloudTrackListHeight: @soundCloudPlayerHeight;
-@soundCloudTrackListLeftSpacing: @marginLarge;
+@soundCloudTrackListLeftSpacing: 50%;
 @soundCloudTrackListTrackWidth: (@soundCloudPlayerWidth - 4.5); //approx. 95.5%
 @soundCloudTrackListTrackPadding: @paddingMini;
 @soundCloudTrackListTrackMargin: @marginMini;
@@ -59,8 +66,8 @@ Sitewide variables
 
 /* Info Panel */
 @soundCloudInfoPanelTopSpacing: @marginSmall;
-@soundCloudInfoPanelWidth: 12.5em;
-@soundCloudInfoPanelHeight: 28.125em;
+@soundCloudInfoPanelWidth: 96%;
+@soundCloudInfoPanelHeight: 80%;
 @soundCloudInfoPanelMargin: 0 @marginLarge 0 0;
 @soundCloudInfoPanelPadding: @paddingMini;
 @soundCloudInfoPanelToggleTopSpacing: @marginSmall;
@@ -69,8 +76,8 @@ Sitewide variables
 @soundCloudInfoPanelCloseRightSpacing: @soundCloudInfoPanelToggleLeftSpacing;
 
 /* Scrubber */
-@soundCloudScrubberBottomSpacing: @marginSmall;
-@soundCloudScrubberWidth: @soundCloudTrackListTrackWidth;
+@soundCloudScrubberBottomSpacing: 0;
+@soundCloudScrubberWidth: 50%;
 @soundCloudScrubberHeight: @soundCloudControlTopSpacing;
 
 @soundCloudScrubberPlayingHeight: @soundCloudScrubberHeight;

@@ -25,7 +25,10 @@
 		list-style-position: inside;
 	}
 	.sc-artwork-list {
-		display: none;
+		width: @soundCloudArtworkListWidth;
+		height: @soundCloudArtworkListHeight;
+		position: relative;
+		float: left;
 		li {
 			list-style-type: none;
 			display: none;
@@ -62,7 +65,6 @@
 		}
 	}
 	ol.sc-trackslist {
-		position: absolute;
 		float: left;
 		width: @soundCloudTrackListWidth;
 		height: @soundCloudTrackListHeight;
@@ -120,7 +122,7 @@
 
 .sc-scrubber {
 	position: absolute;
-	left: -5000px;
+	//left: -5000px;
 	bottom: @soundCloudScrubberBottomSpacing;
 	height: @soundCloudScrubberHeight;
 	width: @soundCloudScrubberWidth;
