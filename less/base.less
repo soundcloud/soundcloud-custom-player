@@ -11,8 +11,9 @@
 	=============================================================================
 	Contains base styles for soundcloud player.  Customizable via variables.less.
 --------------------------------------------------------------------------------------------------------------------- */
+@import "variables";
 
-.verticalPlayer(@isHorizontal) where (@isHorizontal = False) {
+.soundcloudCustomizedPlayer(@isHorizontal) when (@isHorizontal = False) {
 	.sc-player {
 		width: @soundcloudPlayerWidth;
 		height: @soundcloudPlayerHeight;
@@ -153,6 +154,8 @@
 	}
 }
 
-.verticalPlayer(@isHorizontal) where (@isHorizontal = True) {
+.soundcloudCustomizedPlayer(@isHorizontal) when (@isHorizontal = True) {
 
 }
+
+.soundcloudCustomizedPlayer(@isHorizontal);
