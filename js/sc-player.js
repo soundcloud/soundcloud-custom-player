@@ -257,8 +257,9 @@
         var index = 0,
             playerObj = {node: $player, tracks: []},
             continueLoading = function(){
+              index += 1;
               if(links[index]){
-                  // if there are more track to load, get them from the api
+                  // if there are more tracks to load, get them from the api
                   loadUrl(links[index]);
                 }else{
                   // if loading finishes, anounce it to the GUI
@@ -269,7 +270,6 @@
               var apiUrl = scApiUrl(link.url, apiKey);
               $.getJSON(apiUrl, function(data) {
                 // log('data loaded', link.url, data);
-                index += 1;
                 if(data.tracks){
                   // log('data.tracks', data.tracks);
                   playerObj.tracks = playerObj.tracks.concat(data.tracks);
