@@ -262,7 +262,7 @@
                   loadUrl(links[index]);
                 }else{
                   // if loading finishes, anounce it to the GUI
-                  playerObj.node.trigger({type:'onTrackDataLoaded', playerObj: playerObj, url: apiUrl});
+                  playerObj.node.trigger({type:'onTrackDataLoaded', playerObj: playerObj, links: links});
                 }
             },
             loadUrl = function(link) {
