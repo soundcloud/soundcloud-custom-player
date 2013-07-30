@@ -169,9 +169,14 @@
     var flashDriver = function() {
       var engineId = 'scPlayerEngine',
           player,
+          lessThanEqualToIE9 = (function(){ // Detects IE9 and lower
+            var div = document.createElement('div');
+            div.innerHTML = '<!--[if IE]><i></i><![endif]-->';
+            return div.getElementsByTagName('i').length > 0;
+          }()),
           flashHtml = function(url) {
             var swf = (secureDocument ? 'https' : 'http') + '://player.' + domain +'/player.swf?url=' + url +'&amp;enable_api=true&amp;player_type=engine&amp;object_id=' + engineId;
-            if ($.browser && $.browser.msie) {
+            if (lessThanEqualToIE9) {
               return '<object height="100%" width="100%" id="' + engineId + '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" data="' + swf + '">'+
                 '<param name="movie" value="' + swf + '" />'+
                 '<param name="allowscriptaccess" value="always" />'+
