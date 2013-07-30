@@ -169,7 +169,7 @@
     var flashDriver = function() {
       var engineId = 'scPlayerEngine',
           player,
-          lessThanEqualToIE9 = (function(){ // Detects IE9 and lower
+          lessThanEqualToIE9 = (function(){
             var div = document.createElement('div');
             div.innerHTML = '<!--[if IE]><i></i><![endif]-->';
             return div.getElementsByTagName('i').length > 0;
