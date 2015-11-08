@@ -396,6 +396,7 @@
       onSeek = function(player, relative) {
         audioEngine.seek(relative);
         $(player).trigger('onPlayerSeek');
+        updatePlayStatus(player, true);
       },
       onSkip = function(player) {
         var $player = $(player);
