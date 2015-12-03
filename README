@@ -1,14 +1,14 @@
-SoundCloud Custom Player as a jQuery plugin
+# SoundCloud Custom Player as a jQuery plugin
 
 This plugin allows you to create easily customizable, HTML/CSS/JS based audio players. It uses the official SoundCloud Flash widget for the audio streaming and widget API for it's control or native HTML5 streaming. Supports iPad, iPhone OS4, Palm Pre etc.
 
-Getting started
+## Getting started
 The player setup is relatively easy:
 
-Download the CSS and JS files for the sc-player here:
+### Download the CSS and JS files for the sc-player here:
 http://github.com/soundcloud/soundcloud-custom-player/archives/master
 
-First, add the player css files in the 'head' tag of your page source:
+### First, add the player css files in the 'head' tag of your page source:
 <link rel="stylesheet" href="../css/sc-player-standard.css" type="text/css">
 <link rel="stylesheet" href="../css/sc-player.css" type="text/css">
 
