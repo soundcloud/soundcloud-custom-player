@@ -53,7 +53,7 @@
       // convert a SoundCloud resource URL to an API URL
       scApiUrl = function(url, apiKey) {
         var resolver = ( secureDocument || (/^https/i).test(url) ? 'https' : 'http') + '://api.' + domain + '/resolve?url=',
-            params = 'format=json&consumer_key=' + apiKey +'&callback=?';
+            params = 'format=json&consumer_key=' + apiKey +'';
 
         // force the secure url in the secure environment
         if( secureDocument ) {
@@ -256,11 +256,20 @@
       loadTracksData = function($player, links, key) {
         var index = 0,
             playerObj = {node: $player, tracks: []},
+            continueLoading = function(){
+              index += 1;
+              if(links[index]){
+                  // if there are more tracks to load, get them from the api
+                  loadUrl(links[index]);
+                }else{
+                  // if loading finishes, anounce it to the GUI
+                  playerObj.node.trigger({type:'onTrackDataLoaded', playerObj: playerObj, links: links});
+                }
+            },
             loadUrl = function(link) {
               var apiUrl = scApiUrl(link.url, apiKey);
               $.getJSON(apiUrl, function(data) {
                 // log('data loaded', link.url, data);
-                index += 1;
                 if(data.tracks){
                   // log('data.tracks', data.tracks);
                   playerObj.tracks = playerObj.tracks.concat(data.tracks);
@@ -282,14 +291,10 @@
                 }else if($.isArray(data)){
                   playerObj.tracks = playerObj.tracks.concat(data);
                 }
-                if(links[index]){
-                  // if there are more track to load, get them from the api
-                  loadUrl(links[index]);
-                }else{
-                  // if loading finishes, anounce it to the GUI
-                  playerObj.node.trigger({type:'onTrackDataLoaded', playerObj: playerObj, url: apiUrl});
-                }
-             });
+                continueLoading();
+                
+             })
+             .error(continueLoading);
            };
         // update current API key
         apiKey = key;
