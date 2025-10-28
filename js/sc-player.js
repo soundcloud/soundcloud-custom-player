@@ -6,7 +6,7 @@
 *   http://www.opensource.org/licenses/mit-license.php
 *
 *   Usage:
-*   <a href="http://soundcloud.com/matas/hobnotropic" class="sc-player">My new dub track</a>
+*   <a href= class="sc-player">My new dub track</a>
 *   The link will be automatically replaced by the HTML based player
 */
 (function($) {
@@ -609,7 +609,6 @@
     randomize: false,
     loadArtworks: 5,
     // the default Api key should be replaced by your own one
-    // get it here http://soundcloud.com/you/apps/new
     apiKey: 'htuiRd1JP11Ww0X72T1C3g'
   };
 

@@ -86,7 +86,7 @@ asyncTest('track', 11, function() {
     start();
   });
 
-  var $link = $('<a href="http://soundcloud.com/matas/hobnotropic">Hobnotropic</a>');
+  var $link = $('<a href=>Hobnotropic</a>');
 
   $("#qunit-fixture").append($link);
 
@@ -102,7 +102,7 @@ asyncTest('loading class', 2, function() {
     start();
   });
 
-  var $link = $('<a href="http://soundcloud.com/matas/hobnotropic">Hobnotropic</a>');
+  var $link = $('<a href=>Hobnotropic</a>');
 
   $("#qunit-fixture").append($link);
 
@@ -119,7 +119,7 @@ asyncTest('inherit class', 1, function() {
     start();
   });
 
-  var $link = $('<a href="http://soundcloud.com/matas/hobnotropic" class="myclass">Hobnotropic</a>');
+  var $link = $('<a href= class="myclass">Hobnotropic</a>');
 
   $("#qunit-fixture").append($link);
 
@@ -138,7 +138,7 @@ asyncTest('set', 3, function() {
     start();
   });
 
-  var $link = $('<a href="http://soundcloud.com/forss/sets/soulhack">Soulhack</a>');
+  var $link = $('<a href=>Soulhack</a>');
 
   $("#qunit-fixture").append($link);
 
@@ -156,7 +156,7 @@ asyncTest('user', 3, function() {
     start();
   });
 
-  var $link = $('<a href="http://soundcloud.com/forss/">Forss tracks</a>');
+  var $link = $('<a href=>Forss tracks</a>');
 
   $("#qunit-fixture").append($link);
 
@@ -174,7 +174,7 @@ asyncTest('favorites', 3, function() {
     start();
   });
 
-  var $link = $('<a href="http://soundcloud.com/matas/favorites">Matas favorites</a>');
+  var $link = $('<a href=>Matas favorites</a>');
 
   $("#qunit-fixture").append($link);
 
@@ -193,7 +193,7 @@ asyncTest('group', 3, function() {
     start();
   });
 
-  var $link = $('<a href="http://soundcloud.com/groups/field-recordings">Field recordings group</a>');
+  var $link = $('<a href=>Field recordings group</a>');
 
   $("#qunit-fixture").append($link);
 
@@ -214,9 +214,9 @@ asyncTest('multiple links', 3, function() {
 
   var $link = $('<div></div>');
   $link
-    .append('<a href="http://soundcloud.com/matas/hobnotropic">Matas hobnotropic</a>')
-    .append('<a href="http://soundcloud.com/forss/city-ports">Forss City Ports</a>')
-    .append('<a href="http://soundcloud.com/alex/a-phone-call-on-saturday-1">Phone call</a>');
+    .append('<a href=>Matas hobnotropic</a>')
+    .append('<a href=>Forss City Ports</a>')
+    .append('<a href=>Phone call</a>');
 
   $("#qunit-fixture").append($link);
 
@@ -234,7 +234,7 @@ asyncTest('api url track', 3, function() {
     start();
   });
 
-  var $link = $('<a href="http://api.soundcloud.com/tracks/49931">Matas hobnotropic</a>');
+  var $link = $('<a href=>Matas hobnotropic</a>');
 
   $("#qunit-fixture").append($link);
 
@@ -251,7 +251,7 @@ asyncTest('ssl track', 2, function() {
     start();
   });
 
-  var $link = $('<a href="https://soundcloud.com/matas/hobnotropic">Matas hobnotropic</a>');
+  var $link = $('<a href=>Matas hobnotropic</a>');
 
   $("#qunit-fixture").append($link);
 
@@ -270,7 +270,7 @@ module('options', {
 
 
 asyncTest("beforeRender", 4, function() {
-  var $link = $('<a href="http://soundcloud.com/matas/hobnotropic">Hobnotropic</a>');
+  var $link = $('<a href=>Hobnotropic</a>');
 
   $("#qunit-fixture").append($link);
 
@@ -295,7 +295,7 @@ asyncTest("customClass", 1, function() {
     start();
   });
 
-  var $link = $('<a href="http://soundcloud.com/matas/hobnotropic">Hobnotropic</a>');
+  var $link = $('<a href=>Hobnotropic</a>');
 
   $("#qunit-fixture").append($link);
 
@@ -315,7 +315,7 @@ asyncTest("loadArtworks", 2, function() {
     start();
   });
 
-  var $link = $('<a href="http://soundcloud.com/forss/sets/soulhack">Soulhack</a>');
+  var $link = $('<a href=>Soulhack</a>');
 
   $("#qunit-fixture").append($link);
 
@@ -336,7 +336,7 @@ asyncTest("continuePlayback:true", 2, function() {
     start();
   });
 
-  var $link = $('<a href="http://soundcloud.com/forss/sets/soulhack">Soulhack</a>');
+  var $link = $('<a href=>Soulhack</a>');
 
   $("#qunit-fixture").append($link);
 
@@ -356,7 +356,7 @@ asyncTest("continuePlayback:false", 2, function() {
     start();
   });
 
-  var $link = $('<a href="http://soundcloud.com/forss/sets/soulhack">Soulhack</a>');
+  var $link = $('<a href=>Soulhack</a>');
 
   $("#qunit-fixture").append($link);
 
@@ -377,7 +377,7 @@ asyncTest("autoPlay", 2, function() {
     start();
   });
 
-  var $link = $('<a href="http://soundcloud.com/matas/hobnotropic">Hobnotropic</a>');
+  var $link = $('<a href=>Hobnotropic</a>');
 
   $("#qunit-fixture").append($link);
 
@@ -392,7 +392,7 @@ asyncTest("apiKey", function() {
     equal(event.url, 'http://api.soundcloud.com/resolve?url=http://soundcloud.com/matas/hobnotropic&format=json&consumer_key=myTestKey&callback=?', 'The custom API key was used');
     start();
   });
-  var $link = $('<a href="http://soundcloud.com/matas/hobnotropic">Hobnotropic</a>');
+  var $link = $('<a href=>Hobnotropic</a>');
 
   $("#qunit-fixture").append($link);
 
@@ -450,7 +450,7 @@ asyncTest("randomize", 1, function() {
         compareIndexes();
       }
     });
-    var $link = $('<a href="http://soundcloud.com/forss/sets/soulhack">Soulhack</a>');
+    var $link = $('<a href=>Soulhack</a>');
 
     $("#qunit-fixture").html($link);
 

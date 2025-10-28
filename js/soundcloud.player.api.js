@@ -16,7 +16,6 @@
     _redispatch: function(eventType, flashId, data) {
       var playerNode,
           lsnrs  = this._listeners[eventType] || [],
-          // construct the custom eventType  e.g. 'soundcloud:onPlayerReady'
           customEventType = 'soundcloud:' + eventType;
 
       try{
@@ -49,8 +48,6 @@
 
     },
     // you can add multiple listeners to a certain event
-    // e.g. soundcloud.addEventListener('onPlayerReady', myFunctionOne);
-    //      soundcloud.addEventListener('onPlayerReady', myFunctionTwo);
     addEventListener: function(eventType, callback) {
       if(!this._listeners[eventType]){
         this._listeners[eventType] = [];
@@ -58,7 +55,6 @@
       this._listeners[eventType].push(callback);
     },
     // you can also remove the function listener if e.g you want to trigger it only once
-    // soundcloud.removeEventListener('onMediaPlay', myFunctionOne);
     removeEventListener: function(eventType, callback) {
       var lsnrs = this._listeners[eventType] || [];
       for(var i = 0, l = lsnrs.length; i < l; i += 1) {
@@ -97,8 +93,6 @@
     },
     // fired when widget has loaded its data and is ready to accept calls from outside
     // the widget will call these functions only if in it's flashvars there's a parameter enable_api=true
-    // @flashId: the widget id, basically the Flash node should be accessible to JS with soundcloud.getPlayer(flashId)
-    // @data: an object containing .mediaUri (eg. 'http://api.soundcloud.com/tracks/49931') .mediaId (e.g. '4532')
     // in buffering events data contains also .percent = (e.g. '99')
     onPlayerReady: function(flashId, data) {
       this._redispatch('onPlayerReady', flashId, data);

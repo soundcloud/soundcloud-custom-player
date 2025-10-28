@@ -22,15 +22,11 @@
    "release_month":6,
    "release_day":2,
    "license":"all-rights-reserved",
-   "uri":"http://api.soundcloud.com/playlists/18",
-   "permalink_url":"http://soundcloud.com/forss/sets/soulhack",
    "artwork_url":"http://i1.sndcdn.com/artworks-000000001684-2b301d-large.jpg?4950b1e",
    "user":{
       "id":183,
       "permalink":"forss",
       "username":"Forss",
-      "uri":"http://api.soundcloud.com/users/183",
-      "permalink_url":"http://soundcloud.com/forss",
       "avatar_url":"http://i1.sndcdn.com/avatars-000000011308-xq0whu-large.jpg?4950b1e"
    },
    "tracks":[
@@ -63,33 +59,24 @@
          "release_day":2,
          "original_format":"aiff",
          "license":"all-rights-reserved",
-         "uri":"http://api.soundcloud.com/tracks/290",
-         "permalink_url":"http://soundcloud.com/forss/city-ports",
          "artwork_url":"http://i1.sndcdn.com/artworks-000000001693-06e5af-large.jpg?4950b1e",
          "waveform_url":"http://w1.sndcdn.com/UiLhla0Ho0Ad_m.png",
          "user":{
             "id":183,
             "permalink":"forss",
             "username":"Forss",
-            "uri":"http://api.soundcloud.com/users/183",
-            "permalink_url":"http://soundcloud.com/forss",
             "avatar_url":"http://i1.sndcdn.com/avatars-000000011308-xq0whu-large.jpg?4950b1e"
          },
          "label":{
             "id":1771,
             "permalink":"sonar-kollektiv",
             "username":"Sonar Kollektiv",
-            "uri":"http://api.soundcloud.com/users/1771",
-            "permalink_url":"http://soundcloud.com/sonar-kollektiv",
             "avatar_url":"http://i1.sndcdn.com/avatars-000002354136-ilz13g-large.jpg?4950b1e"
          },
-         "stream_url":"http://api.soundcloud.com/tracks/290/stream",
-         "download_url":"http://api.soundcloud.com/tracks/290/download",
          "playback_count":16753,
          "download_count":2110,
          "favoritings_count":36,
          "comment_count":36,
-         "attachments_uri":"http://api.soundcloud.com/tracks/290/attachments"
       },
       {
          "id":291,
@@ -120,33 +107,24 @@
          "release_day":2,
          "original_format":"aiff",
          "license":"all-rights-reserved",
-         "uri":"http://api.soundcloud.com/tracks/291",
-         "permalink_url":"http://soundcloud.com/forss/soulhack",
          "artwork_url":"http://i1.sndcdn.com/artworks-000000001702-b6984d-large.jpg?4950b1e",
          "waveform_url":"http://w1.sndcdn.com/AqFIRCAP7Arw_m.png",
          "user":{
             "id":183,
             "permalink":"forss",
             "username":"Forss",
-            "uri":"http://api.soundcloud.com/users/183",
-            "permalink_url":"http://soundcloud.com/forss",
             "avatar_url":"http://i1.sndcdn.com/avatars-000000011308-xq0whu-large.jpg?4950b1e"
          },
          "label":{
             "id":1771,
             "permalink":"sonar-kollektiv",
             "username":"Sonar Kollektiv",
-            "uri":"http://api.soundcloud.com/users/1771",
-            "permalink_url":"http://soundcloud.com/sonar-kollektiv",
             "avatar_url":"http://i1.sndcdn.com/avatars-000002354136-ilz13g-large.jpg?4950b1e"
          },
-         "stream_url":"http://api.soundcloud.com/tracks/291/stream",
-         "download_url":"http://api.soundcloud.com/tracks/291/download",
          "playback_count":17151,
          "download_count":2390,
          "favoritings_count":185,
          "comment_count":77,
-         "attachments_uri":"http://api.soundcloud.com/tracks/291/attachments"
       },
       {
          "id":292,
@@ -177,33 +155,24 @@
          "release_day":2,
          "original_format":"aiff",
          "license":"all-rights-reserved",
-         "uri":"http://api.soundcloud.com/tracks/292",
-         "permalink_url":"http://soundcloud.com/forss/funk-for-nerds",
          "artwork_url":"http://i1.sndcdn.com/artworks-000000001711-8616d6-large.jpg?4950b1e",
          "waveform_url":"http://w1.sndcdn.com/EsdplDAYufuQ_m.png",
          "user":{
             "id":183,
             "permalink":"forss",
             "username":"Forss",
-            "uri":"http://api.soundcloud.com/users/183",
-            "permalink_url":"http://soundcloud.com/forss",
             "avatar_url":"http://i1.sndcdn.com/avatars-000000011308-xq0whu-large.jpg?4950b1e"
          },
          "label":{
             "id":1771,
             "permalink":"sonar-kollektiv",
             "username":"Sonar Kollektiv",
-            "uri":"http://api.soundcloud.com/users/1771",
-            "permalink_url":"http://soundcloud.com/sonar-kollektiv",
             "avatar_url":"http://i1.sndcdn.com/avatars-000002354136-ilz13g-large.jpg?4950b1e"
          },
-         "stream_url":"http://api.soundcloud.com/tracks/292/stream",
-         "download_url":"http://api.soundcloud.com/tracks/292/download",
          "playback_count":9553,
          "download_count":1961,
          "favoritings_count":94,
          "comment_count":36,
-         "attachments_uri":"http://api.soundcloud.com/tracks/292/attachments"
       },
       {
          "id":293,
@@ -234,33 +203,24 @@
          "release_day":2,
          "original_format":"aiff",
          "license":"all-rights-reserved",
-         "uri":"http://api.soundcloud.com/tracks/293",
-         "permalink_url":"http://soundcloud.com/forss/flickermood",
          "artwork_url":"http://i1.sndcdn.com/artworks-000000001720-91c40a-large.jpg?4950b1e",
          "waveform_url":"http://w1.sndcdn.com/cWHNerOLlkUq_m.png",
          "user":{
             "id":183,
             "permalink":"forss",
             "username":"Forss",
-            "uri":"http://api.soundcloud.com/users/183",
-            "permalink_url":"http://soundcloud.com/forss",
             "avatar_url":"http://i1.sndcdn.com/avatars-000000011308-xq0whu-large.jpg?4950b1e"
          },
          "label":{
             "id":1771,
             "permalink":"sonar-kollektiv",
             "username":"Sonar Kollektiv",
-            "uri":"http://api.soundcloud.com/users/1771",
-            "permalink_url":"http://soundcloud.com/sonar-kollektiv",
             "avatar_url":"http://i1.sndcdn.com/avatars-000002354136-ilz13g-large.jpg?4950b1e"
          },
-         "stream_url":"http://api.soundcloud.com/tracks/293/stream",
-         "download_url":"http://api.soundcloud.com/tracks/293/download",
          "playback_count":40475,
          "download_count":2860,
          "favoritings_count":281,
          "comment_count":153,
-         "attachments_uri":"http://api.soundcloud.com/tracks/293/attachments"
       },
       {
          "id":294,
@@ -291,33 +251,24 @@
          "release_day":2,
          "original_format":"aiff",
          "license":"all-rights-reserved",
-         "uri":"http://api.soundcloud.com/tracks/294",
-         "permalink_url":"http://soundcloud.com/forss/using-splashes",
          "artwork_url":"http://i1.sndcdn.com/artworks-000000001729-c6ad07-large.jpg?4950b1e",
          "waveform_url":"http://w1.sndcdn.com/hrNkZJd9Tjx4_m.png",
          "user":{
             "id":183,
             "permalink":"forss",
             "username":"Forss",
-            "uri":"http://api.soundcloud.com/users/183",
-            "permalink_url":"http://soundcloud.com/forss",
             "avatar_url":"http://i1.sndcdn.com/avatars-000000011308-xq0whu-large.jpg?4950b1e"
          },
          "label":{
             "id":1771,
             "permalink":"sonar-kollektiv",
             "username":"Sonar Kollektiv",
-            "uri":"http://api.soundcloud.com/users/1771",
-            "permalink_url":"http://soundcloud.com/sonar-kollektiv",
             "avatar_url":"http://i1.sndcdn.com/avatars-000002354136-ilz13g-large.jpg?4950b1e"
          },
-         "stream_url":"http://api.soundcloud.com/tracks/294/stream",
-         "download_url":"http://api.soundcloud.com/tracks/294/download",
          "playback_count":5889,
          "download_count":1475,
          "favoritings_count":34,
          "comment_count":15,
-         "attachments_uri":"http://api.soundcloud.com/tracks/294/attachments"
       },
       {
          "id":295,
@@ -348,33 +299,24 @@
          "release_day":2,
          "original_format":"aiff",
          "license":"all-rights-reserved",
-         "uri":"http://api.soundcloud.com/tracks/295",
-         "permalink_url":"http://soundcloud.com/forss/journeyman",
          "artwork_url":"http://i1.sndcdn.com/artworks-000000001738-31eb4b-large.jpg?4950b1e",
          "waveform_url":"http://w1.sndcdn.com/F8On6b2cvWCq_m.png",
          "user":{
             "id":183,
             "permalink":"forss",
             "username":"Forss",
-            "uri":"http://api.soundcloud.com/users/183",
-            "permalink_url":"http://soundcloud.com/forss",
             "avatar_url":"http://i1.sndcdn.com/avatars-000000011308-xq0whu-large.jpg?4950b1e"
          },
          "label":{
             "id":1771,
             "permalink":"sonar-kollektiv",
             "username":"Sonar Kollektiv",
-            "uri":"http://api.soundcloud.com/users/1771",
-            "permalink_url":"http://soundcloud.com/sonar-kollektiv",
             "avatar_url":"http://i1.sndcdn.com/avatars-000002354136-ilz13g-large.jpg?4950b1e"
          },
-         "stream_url":"http://api.soundcloud.com/tracks/295/stream",
-         "download_url":"http://api.soundcloud.com/tracks/295/download",
          "playback_count":14217,
          "download_count":2308,
          "favoritings_count":182,
          "comment_count":95,
-         "attachments_uri":"http://api.soundcloud.com/tracks/295/attachments"
       },
       {
          "id":296,
@@ -405,33 +347,24 @@
          "release_day":2,
          "original_format":"aiff",
          "license":"all-rights-reserved",
-         "uri":"http://api.soundcloud.com/tracks/296",
-         "permalink_url":"http://soundcloud.com/forss/atomised",
          "artwork_url":"http://i1.sndcdn.com/artworks-000000001747-2afe34-large.jpg?4950b1e",
          "waveform_url":"http://w1.sndcdn.com/LU6T6NMmvb6f_m.png",
          "user":{
             "id":183,
             "permalink":"forss",
             "username":"Forss",
-            "uri":"http://api.soundcloud.com/users/183",
-            "permalink_url":"http://soundcloud.com/forss",
             "avatar_url":"http://i1.sndcdn.com/avatars-000000011308-xq0whu-large.jpg?4950b1e"
          },
          "label":{
             "id":1771,
             "permalink":"sonar-kollektiv",
             "username":"Sonar Kollektiv",
-            "uri":"http://api.soundcloud.com/users/1771",
-            "permalink_url":"http://soundcloud.com/sonar-kollektiv",
             "avatar_url":"http://i1.sndcdn.com/avatars-000002354136-ilz13g-large.jpg?4950b1e"
          },
-         "stream_url":"http://api.soundcloud.com/tracks/296/stream",
-         "download_url":"http://api.soundcloud.com/tracks/296/download",
          "playback_count":5672,
          "download_count":1517,
          "favoritings_count":43,
          "comment_count":25,
-         "attachments_uri":"http://api.soundcloud.com/tracks/296/attachments"
       },
       {
          "id":297,
@@ -462,33 +395,24 @@
          "release_day":2,
          "original_format":"aiff",
          "license":"all-rights-reserved",
-         "uri":"http://api.soundcloud.com/tracks/297",
-         "permalink_url":"http://soundcloud.com/forss/characteristics",
          "artwork_url":"http://i1.sndcdn.com/artworks-000000001756-c6c059-large.jpg?4950b1e",
          "waveform_url":"http://w1.sndcdn.com/OxDntAhpwK1v_m.png",
          "user":{
             "id":183,
             "permalink":"forss",
             "username":"Forss",
-            "uri":"http://api.soundcloud.com/users/183",
-            "permalink_url":"http://soundcloud.com/forss",
             "avatar_url":"http://i1.sndcdn.com/avatars-000000011308-xq0whu-large.jpg?4950b1e"
          },
          "label":{
             "id":1771,
             "permalink":"sonar-kollektiv",
             "username":"Sonar Kollektiv",
-            "uri":"http://api.soundcloud.com/users/1771",
-            "permalink_url":"http://soundcloud.com/sonar-kollektiv",
             "avatar_url":"http://i1.sndcdn.com/avatars-000002354136-ilz13g-large.jpg?4950b1e"
          },
-         "stream_url":"http://api.soundcloud.com/tracks/297/stream",
-         "download_url":"http://api.soundcloud.com/tracks/297/download",
          "playback_count":4664,
          "download_count":1613,
          "favoritings_count":45,
          "comment_count":28,
-         "attachments_uri":"http://api.soundcloud.com/tracks/297/attachments"
       },
       {
          "id":298,
@@ -519,33 +443,24 @@
          "release_day":2,
          "original_format":"aiff",
          "license":"all-rights-reserved",
-         "uri":"http://api.soundcloud.com/tracks/298",
-         "permalink_url":"http://soundcloud.com/forss/lost-through-inversion",
          "artwork_url":"http://i1.sndcdn.com/artworks-000000001765-ae430a-large.jpg?4950b1e",
          "waveform_url":"http://w1.sndcdn.com/lskPoAMnNfJp_m.png",
          "user":{
             "id":183,
             "permalink":"forss",
             "username":"Forss",
-            "uri":"http://api.soundcloud.com/users/183",
-            "permalink_url":"http://soundcloud.com/forss",
             "avatar_url":"http://i1.sndcdn.com/avatars-000000011308-xq0whu-large.jpg?4950b1e"
          },
          "label":{
             "id":1771,
             "permalink":"sonar-kollektiv",
             "username":"Sonar Kollektiv",
-            "uri":"http://api.soundcloud.com/users/1771",
-            "permalink_url":"http://soundcloud.com/sonar-kollektiv",
             "avatar_url":"http://i1.sndcdn.com/avatars-000002354136-ilz13g-large.jpg?4950b1e"
          },
-         "stream_url":"http://api.soundcloud.com/tracks/298/stream",
-         "download_url":"http://api.soundcloud.com/tracks/298/download",
          "playback_count":3972,
          "download_count":1167,
          "favoritings_count":8,
          "comment_count":2,
-         "attachments_uri":"http://api.soundcloud.com/tracks/298/attachments"
       },
       {
          "id":299,
@@ -576,33 +491,24 @@
          "release_day":2,
          "original_format":"aiff",
          "license":"all-rights-reserved",
-         "uri":"http://api.soundcloud.com/tracks/299",
-         "permalink_url":"http://soundcloud.com/forss/tacit-knowledge",
          "artwork_url":"http://i1.sndcdn.com/artworks-000000001774-9c7d33-large.jpg?4950b1e",
          "waveform_url":"http://w1.sndcdn.com/Xiio7IpkOsUp_m.png",
          "user":{
             "id":183,
             "permalink":"forss",
             "username":"Forss",
-            "uri":"http://api.soundcloud.com/users/183",
-            "permalink_url":"http://soundcloud.com/forss",
             "avatar_url":"http://i1.sndcdn.com/avatars-000000011308-xq0whu-large.jpg?4950b1e"
          },
          "label":{
             "id":1771,
             "permalink":"sonar-kollektiv",
             "username":"Sonar Kollektiv",
-            "uri":"http://api.soundcloud.com/users/1771",
-            "permalink_url":"http://soundcloud.com/sonar-kollektiv",
             "avatar_url":"http://i1.sndcdn.com/avatars-000002354136-ilz13g-large.jpg?4950b1e"
          },
-         "stream_url":"http://api.soundcloud.com/tracks/299/stream",
-         "download_url":"http://api.soundcloud.com/tracks/299/download",
          "playback_count":4423,
          "download_count":1282,
          "favoritings_count":18,
          "comment_count":16,
-         "attachments_uri":"http://api.soundcloud.com/tracks/299/attachments"
       },
       {
          "id":300,
@@ -633,41 +539,30 @@
          "release_day":2,
          "original_format":"aiff",
          "license":"cc-by-nc-sa",
-         "uri":"http://api.soundcloud.com/tracks/300",
-         "permalink_url":"http://soundcloud.com/forss/paradigm-shift",
          "artwork_url":"http://i1.sndcdn.com/artworks-000000001783-90246b-large.jpg?4950b1e",
          "waveform_url":"http://w1.sndcdn.com/QXoATV8BxchR_m.png",
          "user":{
             "id":183,
             "permalink":"forss",
             "username":"Forss",
-            "uri":"http://api.soundcloud.com/users/183",
-            "permalink_url":"http://soundcloud.com/forss",
             "avatar_url":"http://i1.sndcdn.com/avatars-000000011308-xq0whu-large.jpg?4950b1e"
          },
          "label":{
             "id":1771,
             "permalink":"sonar-kollektiv",
             "username":"Sonar Kollektiv",
-            "uri":"http://api.soundcloud.com/users/1771",
-            "permalink_url":"http://soundcloud.com/sonar-kollektiv",
             "avatar_url":"http://i1.sndcdn.com/avatars-000002354136-ilz13g-large.jpg?4950b1e"
          },
-         "stream_url":"http://api.soundcloud.com/tracks/300/stream",
-         "download_url":"http://api.soundcloud.com/tracks/300/download",
          "playback_count":6965,
          "download_count":1805,
          "favoritings_count":72,
          "comment_count":46,
-         "attachments_uri":"http://api.soundcloud.com/tracks/300/attachments"
       }
    ],
    "label":{
       "id":1771,
       "permalink":"sonar-kollektiv",
       "username":"Sonar Kollektiv",
-      "uri":"http://api.soundcloud.com/users/1771",
-      "permalink_url":"http://soundcloud.com/sonar-kollektiv",
       "avatar_url":"http://i1.sndcdn.com/avatars-000002354136-ilz13g-large.jpg?4950b1e"
    }
 }
